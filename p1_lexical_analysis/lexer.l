@@ -21,6 +21,15 @@ letter   [a-z]
 
 [" ""\t""\n"]           {;}
 
+"("                     { printf("(\n"); }
+")"                     { printf(")\n"); }
+"="                     { printf("=\n"); }
+","                     { printf(",\n"); }     /* hell yeah, descobri q é assim q se comenta*/
+"*"                     { printf("*\n"); }     /* so n faço ideia como se faz a regra do 3 e*/
+"/"                     { printf("/\n"); }     /* ns se eles se referem a prints das op (5) */
+"+"                     { printf("+\n"); }
+"-"                     { printf("-\n"); }
+
 %%
 
 extern int yylex();
