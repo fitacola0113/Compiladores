@@ -4,11 +4,14 @@
 %}
 
 digit   [0-9]
+letter   [a-z]
 
 %%
 
 {digit}+                { printf("NATURAL(%s)\n",yytext); }
 {digit}*"."{digit}+     { printf("DECIMAL(%s)\n",yytext); }
+
+{letter}({digit}|{letter})*      { printf("IDENTIFIER(%s)\n",yytext); }
 
 %%
 
