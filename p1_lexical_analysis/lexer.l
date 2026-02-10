@@ -19,6 +19,8 @@ letter   [a-z]
 
 {letter}({digit}|{letter})*      { printf("IDENTIFIER(%s)\n",yytext); }
 
+[" ""\t""\n"]           {;}
+
 %%
 
 extern int yylex();
