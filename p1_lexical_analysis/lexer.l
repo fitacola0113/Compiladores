@@ -8,6 +8,12 @@ letter   [a-z]
 
 %%
 
+"integer"               { printf("INTEGER\n"); }
+"double"                { printf("DOUBLE\n"); }
+"if"                    { printf("IF\n"); }
+"then"                  { printf("THEN\n"); }
+"else"                  { printf("ELSE\n"); }
+
 {digit}+                { printf("NATURAL(%s)\n",yytext); }
 {digit}*"."{digit}+     { printf("DECIMAL(%s)\n",yytext); }
 
