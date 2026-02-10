@@ -1,11 +1,17 @@
 %{
     /* place here any C variables and definitions */
+    #include <stdio.h>
 %}
+
 digit   [0-9]
+
 %%
-{digit}+                { printf("NATURAL\n"); }
-{digit}*"."{digit}+     { printf("DECIMAL\n"); }
+
+{digit}+                { printf("NATURAL(%s)\n",yytext); }
+{digit}*"."{digit}+     { printf("DECIMAL(%s)\n",yytext); }
+
 %%
+
 extern int yylex();
 int main() {
     yylex();    /* run the lexical analysis automaton */
