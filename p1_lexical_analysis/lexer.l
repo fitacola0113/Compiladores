@@ -1,8 +1,3 @@
-%{
-    /* place here any C variables and definitions */
-    #include <stdio.h>
-%}
-
 digit   [0-9]
 letter   [a-z]
 
