@@ -1,5 +1,9 @@
 %{
     /* place here any C variables and definitions */
+
+    char str_buffer[1024];
+    int str_index = 0;
+
     #define YY_USER_ACTION \
         for (int i=0; i<yyleng; i++) { \
             if (yytext[i] == '\n') { \
@@ -16,7 +20,7 @@
 %}
 
 /* Define the comment state */
-%x COMMENT
+%x COMMENT STRING
 
 digit   [0-9]
 letter   [a-zA-Z]
@@ -28,6 +32,46 @@ letter   [a-zA-Z]
     "\n"        { /* Macro handles line++ and col=1 */ }
     .           { /* Macro handles col++ */ }
     <<EOF>>     { BEGIN(INITIAL); } /* Support unterminated comments */
+}
+
+\" {
+    str_index = 0;
+    BEGIN(STRING);
+}
+
+<STRING>{
+    \" {
+        str_buffer[str_index] = '\0';
+        printf("STRLIT(\"%s\")\n", str_buffer);
+        BEGIN(INITIAL);
+    }
+
+    \\[fnrt\\\"] {
+        str_buffer[str_index++] = yytext[0];
+        str_buffer[str_index++] = yytext[1];
+    }
+
+    \\[^fnrt\\\"] {
+        printf("Line %d, column %d: invalid escape sequence (%s)\n",
+               cur_line, cur_column - yyleng, yytext);
+    }
+
+    [^\n\r\"\\]+ {
+        for(int i = 0; i < yyleng; i++)
+            str_buffer[str_index++] = yytext[i];
+    }
+
+    \n|\r {
+        printf("Line %d, column %d: unterminated string literal\n",
+               cur_line, cur_column);
+        BEGIN(INITIAL);
+    }
+
+    <<EOF>> {
+        printf("Line %d, column %d: unterminated string literal\n",
+               cur_line, cur_column);
+        BEGIN(INITIAL);
+    }
 }
 
 "integer"               { printf("INTEGER\n"); }
