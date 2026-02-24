@@ -15,10 +15,20 @@
     int cur_line = 1;
 %}
 
+/* Define the comment state */
+%x COMMENT
+
 digit   [0-9]
 letter   [a-zA-Z]
 
 %%
+"/*"            { BEGIN(COMMENT); }
+<COMMENT>{
+    "*/"        { BEGIN(INITIAL); }
+    "\n"        { /* Macro handles line++ and col=1 */ }
+    .           { /* Macro handles col++ */ }
+    <<EOF>>     { BEGIN(INITIAL); } /* Support unterminated comments */
+}
 
 "integer"               { printf("INTEGER\n"); }
 "double"                { printf("DOUBLE\n"); }
