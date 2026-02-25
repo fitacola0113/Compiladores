@@ -12,6 +12,12 @@
     int cur_line = 1;
     int start_col = 1; 
 
+    int str_start_line = 1;
+    int str_start_col = 1;
+
+    int comment_line = 1;
+    int comment_col = 1;
+
     int print_tokens = 0;
 
     #define YY_USER_ACTION \
@@ -26,24 +32,41 @@
         }
 %}
 
-%x COMMENT STRING
+%x COMMENT STRING LINE_COMMENT
 
 digit      [0-9]
 digit_seq {digit}({digit}|_)*{digit}|{digit}
 letter     [a-zA-Z_$]
 
 %%
-"/*"            { BEGIN(COMMENT); }
+
+"//" { BEGIN(LINE_COMMENT); }
+<LINE_COMMENT>{
+    "\n"|"\r"|"\r\n" { BEGIN(INITIAL); }
+    . { ; }
+}
+
+"/*" { 
+    comment_line = cur_line; 
+    comment_col = start_col; 
+    BEGIN(COMMENT); 
+}
 <COMMENT>{
     "*/"        { BEGIN(INITIAL); }
-    "\n"        { }
+    "\n"|"\r"   { }
     .           { }
-    <<EOF>>     { BEGIN(INITIAL); }
+    <<EOF>>     { 
+        printf("Line %d, column %d: unterminated comment\n", comment_line, comment_col); 
+        BEGIN(INITIAL); 
+    }
 }
 
 \" {
     str_index = 0;
     has_error = 0;
+    // GUARDAR ONDE A STRING COMEÇOU!
+    str_start_line = cur_line;
+    str_start_col = start_col;
     BEGIN(STRING);
 }
 
@@ -51,35 +74,44 @@ letter     [a-zA-Z_$]
     \" {
         if (!has_error) {
             str_buffer[str_index] = '\0';
-            printf("STRLIT(\"%s\")\n", str_buffer);
+            if (print_tokens) printf("STRLIT(\"%s\")\n", str_buffer);
         }
         BEGIN(INITIAL);
     }
+    
     \\[fnrt\\\"] {
         if (str_index + 2 < 1024) {
             str_buffer[str_index++] = yytext[0];
             str_buffer[str_index++] = yytext[1];
         }
     }
+    
     \\[^fnrt\\\"\n\r] {
+        // Erro de escape aponta para onde o escape inválido está
         printf("Line %d, column %d: invalid escape sequence (%s)\n", cur_line, start_col, yytext);
         has_error = 1;
     }
+    
     \\ {
         printf("Line %d, column %d: invalid escape sequence (%s)\n", cur_line, start_col, yytext);
         has_error = 1;
     }
+    
     [^\n\r\"\\]+ {
         for(int i = 0; i < yyleng && str_index < 1023; i++)
             str_buffer[str_index++] = yytext[i];
     }
-    \n|\r {
-        // Usamos start_col para evitar o -1
-        printf("Line %d, column %d: unterminated string literal\n", cur_line - 1, start_col);
+    
+    \n|\r|\r\n {
+        // Erro de string não terminada aponta para a aspa de abertura!
+        printf("Line %d, column %d: unterminated string literal\n", str_start_line, str_start_col);
+        // O YY_USER_ACTION trata de atualizar a cur_line para a próxima linha
         BEGIN(INITIAL);
     }
+    
     <<EOF>> {
-        printf("Line %d, column %d: unterminated string literal\n", cur_line, start_col);
+        // Mesmo no fim do ficheiro, o erro aponta para a aspa inicial
+        printf("Line %d, column %d: unterminated string literal\n", str_start_line, str_start_col);
         BEGIN(INITIAL);
     }
 }
