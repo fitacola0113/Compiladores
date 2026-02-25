@@ -10,9 +10,10 @@
 
     int cur_column = 1;
     int cur_line = 1;
-    int start_col = 1; // Guarda onde o token começou
+    int start_col = 1; 
 
-    // Guardamos a coluna inicial antes de atualizar a posição
+    int print_tokens = 0;
+
     #define YY_USER_ACTION \
         start_col = cur_column; \
         for (int i=0; i<yyleng; i++) { \
@@ -28,7 +29,7 @@
 %x COMMENT STRING
 
 digit      [0-9]
-digit_seq  {digit}(_?{digit})*
+digit_seq {digit}({digit}|_)*{digit}|{digit}
 letter     [a-zA-Z_$]
 
 %%
@@ -83,72 +84,82 @@ letter     [a-zA-Z_$]
     }
 }
 
-"boolean"           { printf("BOOL\n"); }
-"class"             { printf("CLASS\n"); }
-".length"           { printf("DOTLENGTH\n"); }
-"double"            { printf("DOUBLE\n"); }
-"else"              { printf("ELSE\n"); }
-"if"                { printf("IF\n"); }
-"int"               { printf("INT\n"); }
-"System.out.print"  { printf("PRINT\n"); }
-"Integer.parseInt"  { printf("PARSEINT\n"); }
-"public"            { printf("PUBLIC\n"); }
-"return"            { printf("RETURN\n"); }
-"static"            { printf("STATIC\n"); }
-"String"            { printf("STRING\n"); }
-"void"              { printf("VOID\n"); }
-"while"             { printf("WHILE\n"); }
+"boolean"           { if(print_tokens) printf("BOOL\n"); }
+"class"             { if(print_tokens) printf("CLASS\n"); }
+".length"           { if(print_tokens) printf("DOTLENGTH\n"); }
+"double"            { if(print_tokens) printf("DOUBLE\n"); }
+"else"              { if(print_tokens) printf("ELSE\n"); }
+"if"                { if(print_tokens) printf("IF\n"); }
+"int"               { if(print_tokens) printf("INT\n"); }
+"System.out.print"  { if(print_tokens) printf("PRINT\n"); }
+"Integer.parseInt"  { if(print_tokens) printf("PARSEINT\n"); }
+"public"            { if(print_tokens) printf("PUBLIC\n"); }
+"return"            { if(print_tokens) printf("RETURN\n"); }
+"static"            { if(print_tokens) printf("STATIC\n"); }
+"String"            { if(print_tokens) printf("STRING\n"); }
+"void"              { if(print_tokens) printf("VOID\n"); }
+"while"             { if(print_tokens) printf("WHILE\n"); }
 
     /* --- REGRA RESERVED --- */
 "abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile"|"++"|"--"|"null"|"Integer"|"System" {
-    printf("RESERVED(%s)\n", yytext);
+    if(print_tokens) printf("RESERVED(%s)\n", yytext);
 }
 
-"true"|"false"      { printf("BOOLLIT(%s)\n", yytext); }
+"true"|"false"      { if(print_tokens) printf("BOOLLIT(%s)\n", yytext); }
 
-0|([1-9](_?{digit})*) { printf("NATURAL(%s)\n", yytext); }
+0|[1-9]({digit}|_)*{digit}|[1-9] { if(print_tokens) printf("NATURAL(%s)\n", yytext); }
 
 ({digit_seq}"."{digit_seq}?([eE][+-]?{digit_seq})?)|("."{digit_seq}([eE][+-]?{digit_seq})?)|({digit_seq}[eE][+-]?{digit_seq}) {
-    printf("DECIMAL(%s)\n", yytext);
+    if(print_tokens) printf("DECIMAL(%s)\n", yytext);
 }
 
-{letter}({digit}|{letter})* { printf("IDENTIFIER(%s)\n", yytext); }
+{letter}({digit}|{letter})* { if(print_tokens) printf("IDENTIFIER(%s)\n", yytext); }
 
 [ \t\r\n]+          { ; }
 
-"("                 { printf("LPAR\n"); }
-")"                 { printf("RPAR\n"); }
-"{"                 { printf("LBRACE\n"); }
-"}"                 { printf("RBRACE\n"); }
-"["                 { printf("LSQ\n"); }
-"]"                 { printf("RSQ\n"); }
-"=="                { printf("EQ\n"); }
-"!="                { printf("NE\n"); }
-"<="                { printf("LE\n"); }
-">="                { printf("GE\n"); }
-"&&"                { printf("AND\n"); }
-"||"                { printf("OR\n"); }
-"->"                { printf("ARROW\n"); }
-"<<"                { printf("LSHIFT\n"); }
-">>"                { printf("RSHIFT\n"); }
-"="                 { printf("ASSIGN\n"); }
-";"                 { printf("SEMICOLON\n"); }
-","                 { printf("COMMA\n"); }
-"+"                 { printf("PLUS\n"); }
-"-"                 { printf("MINUS\n"); }
-"*"                 { printf("STAR\n"); }
-"/"                 { printf("DIV\n"); }
-"%"                 { printf("MOD\n"); }
-"<"                 { printf("LT\n"); }
-">"                 { printf("GT\n"); }
-"!"                 { printf("NOT\n"); }
-"^"                 { printf("XOR\n"); }
+"("                 { if(print_tokens) printf("LPAR\n"); }
+")"                 { if(print_tokens) printf("RPAR\n"); }
+"{"                 { if(print_tokens) printf("LBRACE\n"); }
+"}"                 { if(print_tokens) printf("RBRACE\n"); }
+"["                 { if(print_tokens) printf("LSQ\n"); }
+"]"                 { if(print_tokens) printf("RSQ\n"); }
+"=="                { if(print_tokens) printf("EQ\n"); }
+"!="                { if(print_tokens) printf("NE\n"); }
+"<="                { if(print_tokens) printf("LE\n"); }
+">="                { if(print_tokens) printf("GE\n"); }
+"&&"                { if(print_tokens) printf("AND\n"); }
+"||"                { if(print_tokens) printf("OR\n"); }
+"->"                { if(print_tokens) printf("ARROW\n"); }
+"<<"                { if(print_tokens) printf("LSHIFT\n"); }
+">>"                { if(print_tokens) printf("RSHIFT\n"); }
+"="                 { if(print_tokens) printf("ASSIGN\n"); }
+";"                 { if(print_tokens) printf("SEMICOLON\n"); }
+","                 { if(print_tokens) printf("COMMA\n"); }
+"+"                 { if(print_tokens) printf("PLUS\n"); }
+"-"                 { if(print_tokens) printf("MINUS\n"); }
+"*"                 { if(print_tokens) printf("STAR\n"); }
+"/"                 { if(print_tokens) printf("DIV\n"); }
+"%"                 { if(print_tokens) printf("MOD\n"); }
+"<"                 { if(print_tokens) printf("LT\n"); }
+">"                 { if(print_tokens) printf("GT\n"); }
+"!"                 { if(print_tokens) printf("NOT\n"); }
+"^"                 { if(print_tokens) printf("XOR\n"); }
 
 . { printf("Line %d, column %d: illegal character (%s)\n", cur_line, start_col, yytext); }
 
 %%
 
-int main() {
+int main(int argc, char *argv[]) {
+    // Verifica os argumentos passados na linha de comandos
+    if (argc > 1) { 
+        
+        if (strcmp(argv[1], "-l") == 0 ) {
+            print_tokens = 1;
+        } else if (strcmp(argv[1], "-e1") == 0) {
+            print_tokens = 0;
+        }
+    }
+    
     yylex();
     return 0;
 }

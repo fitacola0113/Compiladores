@@ -1,10 +1,18 @@
-To compile:
-- lex lexer.l
-- cc lex.yy.c -o lexer
-- ./lexer
+to delete de exe file
+    -make clean
 
-To clean the generated files:
-- rm lex.yy.c lexer
+to compile:
+    -make
+
+to create a zip (to put in mooooshak)
+    -make zip
+
+to run
+    -./jucompiler
+    flag:
+        -l com todos os avisos
+        -1e apenas erros
+
 
 
 Login no moooooooooshak
