@@ -1,3 +1,5 @@
+/*Bernardo Mateus 2023211936 Daniel Mendes 2023208585 */
+
 %{
     #include <stdio.h>
     #include <string.h>

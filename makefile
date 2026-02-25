@@ -1,25 +1,32 @@
-# Variables for the compiler and tools
+# Variáveis para o compilador e ferramentas
 LEX = lex
-CC = cc
+CC = gcc
 CFLAGS = -Wall
 
-# Name of the final executable
-TARGET = lexer
+# Nome do executável final exigido pelo enunciado 
+TARGET = jucompiler
 
-# The first rule is the default rule (run by typing 'make')
+# O ficheiro de entrada deve chamar-se jucompiler.l 
+# Nota: Alguns anos pedem .l, outros .1. Use o que o Mooshak exigir.
+SOURCE = jucompiler.l
+
+# Regra principal
 all: $(TARGET)
 
-# Rule to link the object file and create the executable
+# Regra para compilar o executável
 $(TARGET): lex.yy.c
-	$(CC) $(CFLAGS) lex.yy.c -o $(TARGET) -ll
+	$(CC) $(CFLAGS) lex.yy.c -o $(TARGET)
 
-# Rule to run Lex on the .l file
-lex.yy.c: lexer.l
-	$(LEX) lexer.l
+# Regra para correr o Lex
+lex.yy.c: $(SOURCE)
+	$(LEX) $(SOURCE)
 
-# Rule to clean up generated files
+# Regra para limpar ficheiros gerados
 clean:
 	rm -f lex.yy.c $(TARGET)
 
-# Phony targets ensure 'make' doesn't get confused if files named 'clean' or 'all' exist
-.PHONY: all clean
+# Submissão: cria o ficheiro .zip para a Meta 1 
+zip:
+	zip jucompiler.zip $(SOURCE)
+
+.PHONY: all clean zip

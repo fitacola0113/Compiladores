@@ -26,7 +26,7 @@ Login no moooooooooshak
 // //Done: NATURAL 
 // //Done: DECIMAL
 // //Done: STRLIT (Básico: falta validação rigorosa de escapes e mensagens de erro) -> //ToDo
-// //ToDo: BOOLLIT ("true" | "false")
+// //Done: BOOLLIT ("true" | "false")
 
 // --- Operadores e Símbolos ---
 // //Done: ASSIGN ("=")
