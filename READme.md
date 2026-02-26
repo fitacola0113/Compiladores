@@ -1,20 +1,20 @@
 to delete de exe file
-    -make clean
+    - make clean
 
 to compile:
-    -make
+    - make
 
 to create a zip (to put in mooooshak)
-    -make zip
+    - make zip
 
 to run
-    -./jucompiler
+    - ./jucompiler
     flag:
-        -l com todos os avisos
-        -1e apenas erros
+        - -l com todos os avisos
+        - -1e apenas erros
 
 como testar com os case test:
--bash test.sh ./jucompiler
+- bash test.sh ./jucompiler              // tirando o '-'
 
 Login no moooooooooshak
 
@@ -31,10 +31,10 @@ Login no moooooooooshak
 // //Done: Tratamento de erro para carateres desconhecidos (.)
 
 // --- Literais e Identificadores ---
-// //Done: IDENTIFIER (Básico: falta suporte a "_" e "$") -> //ToDo
+// //Done: IDENTIFIER (Básico: falta suporte a "_" e "$") 
 // //Done: NATURAL 
 // //Done: DECIMAL
-// //Done: STRLIT (Básico: falta validação rigorosa de escapes e mensagens de erro) -> //ToDo
+// //Done: STRLIT (Básico: falta validação rigorosa de escapes e mensagens de erro) 
 // //Done: BOOLLIT ("true" | "false")
 
 // --- Operadores e Símbolos ---
@@ -84,4 +84,4 @@ Login no moooooooooshak
 // //Done: WHILE ("while")
 
 // --- Casos Especiais ---
-// //ToDo: RESERVED (Keywords Java, ++, --, null, Integer, System)
+// //Done: RESERVED (Keywords Java, ++, --, null, Integer, System)
