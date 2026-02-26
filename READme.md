@@ -13,7 +13,8 @@ to run
         -l com todos os avisos
         -1e apenas erros
 
-
+como testar com os case test:
+-bash test.sh ./jucompiler
 
 Login no moooooooooshak
 
