@@ -1,32 +1,34 @@
 # Variáveis para o compilador e ferramentas
-LEX = lex
+LEX = flex
+YACC = yacc
 CC = gcc
-CFLAGS = -Wall
+# O -Wno-unused-function serve para o GCC não chatear com avisos de funções do Lex/Yacc que não usamos
+CFLAGS = -Wall -Wno-unused-function 
 
-# Nome do executável final exigido pelo enunciado 
+# Nome do executável final
 TARGET = jucompiler
-
-# O ficheiro de entrada deve chamar-se jucompiler.l 
-# Nota: Alguns anos pedem .l, outros .1. Use o que o Mooshak exigir.
-SOURCE = jucompiler.l
 
 # Regra principal
 all: $(TARGET)
 
-# Regra para compilar o executável
-$(TARGET): lex.yy.c
-	$(CC) $(CFLAGS) lex.yy.c -o $(TARGET)
+# Compilar o executável final juntando o Yacc e o Lex
+$(TARGET): y.tab.c lex.yy.c
+	$(CC) $(CFLAGS) y.tab.c lex.yy.c -o $(TARGET)
 
-# Regra para correr o Lex
-lex.yy.c: $(SOURCE)
-	$(LEX) $(SOURCE)
+# Correr o Yacc (gera y.tab.c e y.tab.h)
+y.tab.c y.tab.h: jucompiler.y
+	$(YACC) -d jucompiler.y
 
-# Regra para limpar ficheiros gerados
+# Correr o Lex (gera lex.yy.c e depende do y.tab.h do Yacc)
+lex.yy.c: jucompiler.l y.tab.h
+	$(LEX) jucompiler.l
+
+# Limpar todos os ficheiros gerados
 clean:
-	rm -f lex.yy.c $(TARGET)
+	rm -f lex.yy.c y.tab.c y.tab.h $(TARGET) jucompiler.zip
 
-# Submissão: cria o ficheiro .zip para a Meta 1 
+# Submissão Meta 2: junta o .l e o .y no zip
 zip:
-	zip jucompiler.zip $(SOURCE)
+	zip jucompiler.zip jucompiler.l jucompiler.y
 
 .PHONY: all clean zip
