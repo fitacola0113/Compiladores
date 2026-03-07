@@ -1,8 +1,1 @@
-Program
-..Identifier(Teste)
-..MethodDecl
-....MethodHeader
-......Void
-......Identifier(main)
-......MethodParams
-....MethodBody
+Line 7, col 1: syntax error: 

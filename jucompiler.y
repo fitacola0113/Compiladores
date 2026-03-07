@@ -334,22 +334,26 @@ void yyerror(char *s) {
 
 int main(int argc, char *argv[]) {
     if (argc > 1) {
+
         if (strcmp(argv[1], "-l") == 0) {
             print_tokens = 1;
-            while (yylex()) ; 
+            while (yylex()) ; // Consome todos os tokens e imprime
             return 0;
         } else if (strcmp(argv[1], "-e1") == 0) {
-            while (yylex()) ;
+            print_tokens = 0;
+            while (yylex()) ; // Consome tokens sem imprimir (só imprime erros)
             return 0;
         } else if (strcmp(argv[1], "-t") == 0) {
-            yyparse();
+            yyparse(); // Chama o Yacc
             if (root && !syntax_error) print_tree(root, 0);
             return 0;
         } else if (strcmp(argv[1], "-e2") == 0) {
-            yyparse();
+            yyparse(); // Chama o Yacc, mas não imprime a árvore
             return 0;
         }
     }
+    
+    // Comportamento por defeito (sem argumentos)
     yyparse();
     return 0;
 }

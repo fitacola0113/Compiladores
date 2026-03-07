@@ -13,10 +13,9 @@ NATURAL(0)
 IDENTIFIER(x123)
 IDENTIFIER(ret)
 PUBLIC
-IDENTIFIER(this)
-PLUS
-PLUS
-IDENTIFIER(protected)
+RESERVED(this)
+RESERVED(++)
+RESERVED(protected)
 PRINT
 LPAR
 Line 7, col 18: unterminated string literal

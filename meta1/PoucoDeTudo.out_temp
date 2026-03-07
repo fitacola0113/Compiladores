@@ -9,8 +9,7 @@ WHILE
 IDENTIFIER(e)
 MINUS
 NATURAL(1)
-PLUS
-PLUS
+RESERVED(++)
 PRINT
 LPAR
 Line 8, col 36: invalid escape sequence (\)
@@ -24,11 +23,9 @@ DECIMAL(.0e0)
 DECIMAL(.0)
 DECIMAL(123.123e123)
 IDENTIFIER(e)
-MINUS
-MINUS
+RESERVED(--)
 NATURAL(123)
-MINUS
-GT
+ARROW
 IDENTIFIER(reallit)
 Line 13, col 29: illegal character (?)
 STRLIT(" \\\\\n 	")
