@@ -3,6 +3,7 @@
 %{
     #include <stdio.h>
     #include <string.h>
+    #include "y.tab.h"
 
     char str_buffer[1024];
     int str_index = 0;
