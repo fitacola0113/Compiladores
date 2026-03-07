@@ -1,3 +1,7 @@
+Line 18, col 7: syntax error: =
+Line 18, col 15: syntax error: =
+Line 18, col 23: syntax error: =
+Line 22, col 7: syntax error: =
 Line 37, col 3: unterminated string literal
+Line 39, col 10: syntax error: =
 Line 46, col 1: unterminated comment
-Line 47, col 45: syntax error: 

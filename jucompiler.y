@@ -56,6 +56,7 @@
     int yylex(void);
     void yyerror(char *s);
     
+    extern char str_buffer[1024];
     extern int cur_line;
     extern int start_col;
     extern char* yytext;
@@ -329,7 +330,16 @@ Expr: Expr PLUS Expr { $$ = create_node("Add", NULL); add_child($$, $1); add_chi
 
 void yyerror(char *s) {
     syntax_error = 1;
-    printf("Line %d, col %d: %s: %s\n", cur_line, start_col, s, yytext);
+    
+    if (yytext && yytext[0] == '"' && yytext[1] == '\0') 
+    {
+        printf("Line %d, col %d: %s: \"%s\"\n", cur_line, start_col, s, str_buffer);
+    } else 
+    {
+        printf("Line %d, col %d: %s: %s\n", cur_line, start_col, s, yytext);
+    }
+    
+    fflush(stdout); 
 }
 
 int main(int argc, char *argv[]) {

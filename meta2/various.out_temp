@@ -1,2 +1,3 @@
+Line 4, col 5: syntax error: =
 Line 7, col 7: unterminated string literal
-Line 10, col 1: syntax error: 
+Line 8, col 3: syntax error: ;
