@@ -142,22 +142,22 @@ letter     [a-zA-Z_$]
 
     /* --- REGRA RESERVED */
 "abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile"|"++"|"--"|"null"|"Integer"|"System" {
-    if(print_tokens) printf("RESERVED(%s)\n", yytext); yylval.str = strdup(yytext); // Guarda a string para o Yacc usar!
+    if(print_tokens) printf("RESERVED(%s)\n", yytext); yylval.str = strdup(yytext); 
     return RESERVED;
 }
 
-"true"|"false"      { if(print_tokens) printf("BOOLLIT(%s)\n", yytext); yylval.str = strdup(yytext); // Guarda a string para o Yacc usar!
+"true"|"false"      { if(print_tokens) printf("BOOLLIT(%s)\n", yytext); yylval.str = strdup(yytext);
     return BOOLLIT; }
 
-0|[1-9]({digit}|_)*{digit}|[1-9] { if(print_tokens) printf("NATURAL(%s)\n", yytext); yylval.str = strdup(yytext); // Guarda a string para o Yacc usar!
+0|[1-9]({digit}|_)*{digit}|[1-9] { if(print_tokens) printf("NATURAL(%s)\n", yytext); yylval.str = strdup(yytext); 
     return NATURAL; }
 
 ({digit_seq}"."{digit_seq}?([eE][+-]?{digit_seq})?)|("."{digit_seq}([eE][+-]?{digit_seq})?)|({digit_seq}[eE][+-]?{digit_seq}) {
-    if(print_tokens) printf("DECIMAL(%s)\n", yytext); yylval.str = strdup(yytext); // Guarda a string para o Yacc usar!
+    if(print_tokens) printf("DECIMAL(%s)\n", yytext); yylval.str = strdup(yytext);
     return DECIMAL;
 }
 
-{letter}({digit}|{letter})* { if(print_tokens) printf("IDENTIFIER(%s)\n", yytext);yylval.str = strdup(yytext); return IDENTIFIER; }
+{letter}({digit}|{letter})* { if(print_tokens) printf("IDENTIFIER(%s)\n", yytext); yylval.str = strdup(yytext); return IDENTIFIER; }
 
 "("                 { if(print_tokens) printf("LPAR\n"); return LPAR;}
 ")"                 { if(print_tokens) printf("RPAR\n"); return RPAR;}
@@ -189,7 +189,7 @@ letter     [a-zA-Z_$]
 
 <INITIAL><<EOF>> {
     start_col = cur_column;
-    return 0; // Avisa o Yacc que o ficheiro acabou!
+    return 0;
 }
 
 . { printf("Line %d, col %d: illegal character (%s)\n", cur_line, start_col, yytext); }

@@ -44,9 +44,9 @@
     if (!n) return;
     for (int i = 0; i < level; i++) printf("..");
     if (n->value) {
-        printf("%s(%s)\n", n->type, n->value); // Sem espaços antes do \n
+        printf("%s(%s)\n", n->type, n->value);
     } else {
-        printf("%s\n", n->type); // Sem espaços antes do \n
+        printf("%s\n", n->type); 
     }
         
         print_tree(n->child, level + 1);
@@ -91,7 +91,7 @@
 %nonassoc ELSE
 
 %type <node> Program ProgramBody MethodDecl MethodHeader MethodBody Expr Statement StatementList
-%type <node> Type MethodInvocation Assignment ParseArgs VarDecl FieldDecl FormalParams FormalParamsList MethodBodyContent IdList ExprList
+%type <node> Type MethodInvocation Assignment ParseArgs VarDecl FieldDecl FormalParams FormalParamsList MethodBodyContent IdList ExprList OpExpr
 
 %%
 
@@ -268,16 +268,19 @@ StatementList: /* vazio */ { $$ = NULL; }
              | StatementList Statement { $$ = append_sibling($1, $2); }
              ;
 
-MethodInvocation: IDENTIFIER LPAR ExprList RPAR { 
+MethodInvocation: IDENTIFIER LPAR RPAR { 
                     $$ = create_node("Call", NULL);
                     add_child($$, create_node("Identifier", $1));
-                    if($3) add_child($$, $3);
+                }
+                | IDENTIFIER LPAR ExprList RPAR { 
+                    $$ = create_node("Call", NULL);
+                    add_child($$, create_node("Identifier", $1));
+                    add_child($$, $3);
                 }
                 | IDENTIFIER LPAR error RPAR { $$ = NULL; }
                 ;
 
-ExprList: { $$ = NULL; }
-        | Expr { $$ = $1; }
+ExprList: Expr { $$ = $1; }
         | ExprList COMMA Expr { $$ = append_sibling($1, $3); }
         ;
 
@@ -295,29 +298,32 @@ ParseArgs: PARSEINT LPAR IDENTIFIER LSQ Expr RSQ RPAR {
          | PARSEINT LPAR error RPAR { $$ = NULL; }
          ;
 
-Expr: Expr PLUS Expr { $$ = create_node("Add", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr MINUS Expr { $$ = create_node("Sub", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr STAR Expr { $$ = create_node("Mul", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr DIV Expr { $$ = create_node("Div", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr MOD Expr { $$ = create_node("Mod", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr AND Expr { $$ = create_node("And", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr OR Expr { $$ = create_node("Or", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr XOR Expr { $$ = create_node("Xor", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr LSHIFT Expr { $$ = create_node("Lshift", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr RSHIFT Expr { $$ = create_node("Rshift", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr EQ Expr { $$ = create_node("Eq", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr NE Expr { $$ = create_node("Ne", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr GE Expr { $$ = create_node("Ge", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr GT Expr { $$ = create_node("Gt", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr LE Expr { $$ = create_node("Le", NULL); add_child($$, $1); add_child($$, $3); }
-    | Expr LT Expr { $$ = create_node("Lt", NULL); add_child($$, $1); add_child($$, $3); }
-    | PLUS Expr %prec UNARY_PLUS { $$ = create_node("Plus", NULL); add_child($$, $2); }
-    | MINUS Expr %prec UNARY_MINUS { $$ = create_node("Minus", NULL); add_child($$, $2); }
-    | NOT Expr { $$ = create_node("Not", NULL); add_child($$, $2); }
+Expr: Assignment { $$ = $1; }
+    | OpExpr { $$ = $1; }
+    ;
+
+OpExpr: OpExpr PLUS OpExpr { $$ = create_node("Add", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr MINUS OpExpr { $$ = create_node("Sub", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr STAR OpExpr { $$ = create_node("Mul", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr DIV OpExpr { $$ = create_node("Div", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr MOD OpExpr { $$ = create_node("Mod", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr AND OpExpr { $$ = create_node("And", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr OR OpExpr { $$ = create_node("Or", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr XOR OpExpr { $$ = create_node("Xor", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr LSHIFT OpExpr { $$ = create_node("Lshift", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr RSHIFT OpExpr { $$ = create_node("Rshift", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr EQ OpExpr { $$ = create_node("Eq", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr NE OpExpr { $$ = create_node("Ne", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr GE OpExpr { $$ = create_node("Ge", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr GT OpExpr { $$ = create_node("Gt", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr LE OpExpr { $$ = create_node("Le", NULL); add_child($$, $1); add_child($$, $3); }
+    | OpExpr LT OpExpr { $$ = create_node("Lt", NULL); add_child($$, $1); add_child($$, $3); }
+    | PLUS OpExpr %prec UNARY_PLUS { $$ = create_node("Plus", NULL); add_child($$, $2); }
+    | MINUS OpExpr %prec UNARY_MINUS { $$ = create_node("Minus", NULL); add_child($$, $2); }
+    | NOT OpExpr { $$ = create_node("Not", NULL); add_child($$, $2); }
     | LPAR Expr RPAR { $$ = $2; }
     | LPAR error RPAR { $$ = NULL; }
     | MethodInvocation { $$ = $1; }
-    | Assignment { $$ = $1; }
     | ParseArgs { $$ = $1; }
     | IDENTIFIER { $$ = create_node("Identifier", $1); }
     | IDENTIFIER DOTLENGTH { $$ = create_node("Length", NULL); add_child($$, create_node("Identifier", $1)); }
@@ -347,23 +353,22 @@ int main(int argc, char *argv[]) {
 
         if (strcmp(argv[1], "-l") == 0) {
             print_tokens = 1;
-            while (yylex()) ; // Consome todos os tokens e imprime
+            while (yylex()) ;
             return 0;
         } else if (strcmp(argv[1], "-e1") == 0) {
             print_tokens = 0;
-            while (yylex()) ; // Consome tokens sem imprimir (só imprime erros)
+            while (yylex()) ; 
             return 0;
         } else if (strcmp(argv[1], "-t") == 0) {
             yyparse(); // Chama o Yacc
             if (root && !syntax_error) print_tree(root, 0);
             return 0;
         } else if (strcmp(argv[1], "-e2") == 0) {
-            yyparse(); // Chama o Yacc, mas não imprime a árvore
+            yyparse();
             return 0;
         }
     }
     
-    // Comportamento por defeito (sem argumentos)
     yyparse();
     return 0;
 }
