@@ -4,7 +4,7 @@
 #    bash test.sh ./path/to/jucompiler
 
 #  Funcionalidade
-#  Compara todos os casos de teste na pasta meta1
+#  Compara todos os casos de teste nas pastas meta1, meta2 e meta3
 #  Cria o ficheiro *casoteste*.out_temp com resultado de correr cada caso de teste
 
 if [[ -z "$1" ]]; then
@@ -19,6 +19,7 @@ exe="$1"
 accepted=0
 total=0
 
+# --- META 1 ---
 if [[ -d meta1 ]]; then
     for inp in meta1/*.java; do
         total=$(( $total + 1 ))
@@ -42,6 +43,7 @@ if [[ -d meta1 ]]; then
    done
 fi
 
+# --- META 2 ---
 if [[ -d meta2 ]]; then
     for inp in meta2/*.java; do
         total=$(( $total + 1 ))
@@ -51,6 +53,30 @@ if [[ -d meta2 ]]; then
         flag="-t"
         if [[ "$inp" == *_e2.java ]]; then
             flag="-e2"
+        fi
+        if $exe $flag < "$inp" > "$tmp"; then
+            lines=$(diff $out $tmp | wc -l)
+            if [[ $lines -gt 0 ]]; then
+                echo " Wrong Answer, run 'diff $out $tmp' to see the differences"
+            else
+                accepted=$(( $accepted + 1 ))
+            fi
+        else
+            echo " Runtime Error, failed to execute '$exe'"
+        fi
+    done
+fi
+
+# --- META 3 ---
+if [[ -d meta3 ]]; then
+    for inp in meta3/*.java; do
+        total=$(( $total + 1 ))
+        echo "$inp"
+        out=${inp%.java}.out
+        tmp=${inp%.java}.out_temp
+        flag="-s"
+        if [[ "$inp" == *_e3.java ]]; then
+            flag="-e3"
         fi
         if $exe $flag < "$inp" > "$tmp"; then
             lines=$(diff $out $tmp | wc -l)

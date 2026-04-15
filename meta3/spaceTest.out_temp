@@ -1,0 +1,32 @@
+===== Class TestSpaces Symbol Table =====
+a		int
+f	(boolean,int)	double
+
+===== Method f(boolean,int) Symbol Table =====
+return		double
+b		boolean	param
+c		int	param
+d		int
+
+Program
+..Identifier(TestSpaces)
+..FieldDecl
+....Int
+....Identifier(a)
+..MethodDecl
+....MethodHeader
+......Double
+......Identifier(f)
+......MethodParams
+........ParamDecl
+..........Bool
+..........Identifier(b)
+........ParamDecl
+..........Int
+..........Identifier(c)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(d)
+......Return
+........Decimal(1.5) - double

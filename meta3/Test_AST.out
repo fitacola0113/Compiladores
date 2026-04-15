@@ -1,0 +1,52 @@
+===== Class TestAST Symbol Table =====
+main	(String[])	void
+
+===== Method main(String[]) Symbol Table =====
+return		void
+args		String[]	param
+i		int
+d		double
+b		boolean
+
+Program
+..Identifier(TestAST)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(main)
+......MethodParams
+........ParamDecl
+..........StringArray
+..........Identifier(args)
+....MethodBody
+......VarDecl
+........Int
+........Identifier(i)
+......VarDecl
+........Double
+........Identifier(d)
+......VarDecl
+........Bool
+........Identifier(b)
+......Assign - int
+........Identifier(i) - int
+........ParseArgs - int
+..........Identifier(args) - String[]
+..........Natural(0) - int
+......Assign - double
+........Identifier(d) - double
+........Add - double
+..........Identifier(i) - int
+..........Mul - double
+............Decimal(2.5) - double
+............Natural(3) - int
+......Assign - boolean
+........Identifier(b) - boolean
+........And - boolean
+..........Lt - boolean
+............Identifier(i) - int
+............Identifier(d) - double
+..........Not - boolean
+............Identifier(b) - boolean
+......Print
+........Identifier(b) - boolean

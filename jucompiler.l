@@ -21,7 +21,9 @@
 
     extern int print_tokens;
 
-    #define YY_USER_ACTION \
+#define YY_USER_ACTION \
+        yylval.info.line = cur_line; \
+        yylval.info.col = cur_column; \
         start_col = cur_column; \
         cur_column += yyleng;
 %}
@@ -78,7 +80,7 @@ letter     [a-zA-Z_$]
             
             char temp[1026];
             sprintf(temp, "\"%s\"", str_buffer);
-            yylval.str = strdup(temp);
+            yylval.info.str = strdup(temp);
             
             return STRLIT;
         }
@@ -142,22 +144,22 @@ letter     [a-zA-Z_$]
 
     /* --- REGRA RESERVED */
 "abstract"|"assert"|"break"|"byte"|"case"|"catch"|"char"|"const"|"continue"|"default"|"do"|"enum"|"extends"|"final"|"finally"|"float"|"for"|"goto"|"implements"|"import"|"instanceof"|"interface"|"long"|"native"|"new"|"package"|"private"|"protected"|"short"|"strictfp"|"super"|"switch"|"synchronized"|"this"|"throw"|"throws"|"transient"|"try"|"volatile"|"++"|"--"|"null"|"Integer"|"System" {
-    if(print_tokens) printf("RESERVED(%s)\n", yytext); yylval.str = strdup(yytext); 
+    if(print_tokens) printf("RESERVED(%s)\n", yytext); yylval.info.str = strdup(yytext); 
     return RESERVED;
 }
 
-"true"|"false"      { if(print_tokens) printf("BOOLLIT(%s)\n", yytext); yylval.str = strdup(yytext);
+"true"|"false"      { if(print_tokens) printf("BOOLLIT(%s)\n", yytext); yylval.info.str = strdup(yytext);
     return BOOLLIT; }
 
-0|[1-9]({digit}|_)*{digit}|[1-9] { if(print_tokens) printf("NATURAL(%s)\n", yytext); yylval.str = strdup(yytext); 
+0|[1-9]({digit}|_)*{digit}|[1-9] { if(print_tokens) printf("NATURAL(%s)\n", yytext); yylval.info.str = strdup(yytext); 
     return NATURAL; }
 
 ({digit_seq}"."{digit_seq}?([eE][+-]?{digit_seq})?)|("."{digit_seq}([eE][+-]?{digit_seq})?)|({digit_seq}[eE][+-]?{digit_seq}) {
-    if(print_tokens) printf("DECIMAL(%s)\n", yytext); yylval.str = strdup(yytext);
+    if(print_tokens) printf("DECIMAL(%s)\n", yytext); yylval.info.str = strdup(yytext);
     return DECIMAL;
 }
 
-{letter}({digit}|{letter})* { if(print_tokens) printf("IDENTIFIER(%s)\n", yytext); yylval.str = strdup(yytext); return IDENTIFIER; }
+{letter}({digit}|{letter})* { if(print_tokens) printf("IDENTIFIER(%s)\n", yytext); yylval.info.str = strdup(yytext); return IDENTIFIER; }
 
 "("                 { if(print_tokens) printf("LPAR\n"); return LPAR;}
 ")"                 { if(print_tokens) printf("RPAR\n"); return RPAR;}

@@ -11,9 +11,9 @@ TARGET = jucompiler
 # Regra principal
 all: $(TARGET)
 
-# Compilar o executável final juntando o Yacc e o Lex
-$(TARGET): y.tab.c lex.yy.c
-	$(CC) $(CFLAGS) y.tab.c lex.yy.c -o $(TARGET)
+# Compilar o executável final juntando o Yacc, o Lex e a Semântica
+$(TARGET): y.tab.c lex.yy.c semantics.c
+	$(CC) $(CFLAGS) y.tab.c lex.yy.c semantics.c -o $(TARGET)
 
 # Correr o Yacc (gera y.tab.c e y.tab.h)
 y.tab.c y.tab.h: jucompiler.y
@@ -27,8 +27,8 @@ lex.yy.c: jucompiler.l y.tab.h
 clean:
 	rm -f lex.yy.c y.tab.c y.tab.h $(TARGET) jucompiler.zip
 
-# Submissão Meta 2: junta o .l e o .y no zip
+# Submissão Meta 3: junta todos os ficheiros no zip
 zip:
-	zip jucompiler.zip jucompiler.l jucompiler.y
+	zip jucompiler.zip jucompiler.l jucompiler.y semantics.c semantics.h ast.h
 
 .PHONY: all clean zip
