@@ -17,6 +17,7 @@ typedef struct _symbol_table {
     char *table_name;
     symbol *symbols;
     struct _symbol_table *next;
+    bool is_printed; 
 } symbol_table;
 
 extern symbol_table *global_table;
