@@ -93,13 +93,13 @@ Program
 ........Identifier(f) - ()
 ......Call - int
 ........Identifier(f) - (boolean)
-........BoolLit(true) - boolean
+........BoolLit(true)
 ......Call - boolean
 ........Identifier(f) - (double)
-........Decimal(0e0) - double
+........Decimal(0e0)
 ......Call - double
 ........Identifier(f) - (int)
-........Natural(123) - int
+........Natural(123)
 ......Call - void
 ........Identifier(f) - (String[])
 ........Identifier(args) - String[]
@@ -120,16 +120,16 @@ Program
 ........Identifier(i) - int
 ......Call - int
 ........Identifier(f) - (double,int,double,int)
-........Decimal(0.) - double
-........Natural(1) - int
-........Decimal(2.) - double
-........Natural(3) - int
+........Decimal(0.)
+........Natural(1)
+........Decimal(2.)
+........Natural(3)
 ......Call - double
 ........Identifier(f) - (int,double,int,double)
-........Natural(0) - int
-........Decimal(.1) - double
-........Natural(2) - int
-........Decimal(.3) - double
+........Natural(0)
+........Decimal(.1)
+........Natural(2)
+........Decimal(.3)
 ......Call - boolean
 ........Identifier(f) - (int,double)
 ........Identifier(i) - int
@@ -147,28 +147,28 @@ Program
 ........Identifier(i) - int
 ......Call - int
 ........Identifier(f) - (double,int,double,int)
-........Decimal(0.) - double
-........Natural(1) - int
-........Natural(2) - int
-........Natural(3) - int
+........Decimal(0.)
+........Natural(1)
+........Natural(2)
+........Natural(3)
 ......Call - int
 ........Identifier(f) - (double,int,double,int)
-........Natural(0) - int
-........Natural(1) - int
-........Decimal(2.) - double
-........Natural(3) - int
+........Natural(0)
+........Natural(1)
+........Decimal(2.)
+........Natural(3)
 ......Call - double
 ........Identifier(f) - (int,double,int,double)
-........Natural(0) - int
-........Decimal(.1) - double
-........Natural(2) - int
-........Natural(3) - int
+........Natural(0)
+........Decimal(.1)
+........Natural(2)
+........Natural(3)
 ......Call - double
 ........Identifier(f) - (int,double,int,double)
-........Natural(0) - int
-........Natural(1) - int
-........Natural(2) - int
-........Decimal(.3) - double
+........Natural(0)
+........Natural(1)
+........Natural(2)
+........Decimal(.3)
 ......Call - int
 ........Identifier(f) - (boolean)
 ........Call - boolean
@@ -181,29 +181,29 @@ Program
 ................Identifier(f) - (double)
 ................Call - double
 ..................Identifier(f) - (int)
-..................Natural(0) - int
+..................Natural(0)
 ......Call - boolean
 ........Identifier(f) - (int,double,boolean)
 ........Call - int
 ..........Identifier(f) - (boolean)
-..........BoolLit(true) - boolean
+..........BoolLit(true)
 ........Call - double
 ..........Identifier(f) - (int)
-..........Natural(0) - int
+..........Natural(0)
 ........Call - boolean
 ..........Identifier(f) - (double)
-..........Decimal(0.0) - double
+..........Decimal(0.0)
 ......Call - boolean
 ........Identifier(f) - (int,double,boolean)
 ........Call - int
 ..........Identifier(f) - (boolean)
-..........BoolLit(true) - boolean
+..........BoolLit(true)
 ........Call - int
 ..........Identifier(f) - (boolean)
-..........BoolLit(false) - boolean
+..........BoolLit(false)
 ........Call - boolean
 ..........Identifier(f) - (double)
-..........Decimal(0.0) - double
+..........Decimal(0.0)
 ......Print
 ........Call - int
 ..........Identifier(f) - (boolean)
@@ -217,27 +217,27 @@ Program
 ..................Identifier(f) - (double)
 ..................Call - double
 ....................Identifier(f) - (int)
-....................Natural(0) - int
+....................Natural(0)
 ......Print
 ........Call - boolean
 ..........Identifier(f) - (int,double,boolean)
 ..........Call - int
 ............Identifier(f) - (boolean)
-............BoolLit(true) - boolean
+............BoolLit(true)
 ..........Call - double
 ............Identifier(f) - (int)
-............Natural(0) - int
+............Natural(0)
 ..........Call - boolean
 ............Identifier(f) - (double)
-............Decimal(0.0) - double
+............Decimal(0.0)
 ......Print
 ........Call - boolean
 ..........Identifier(f) - (double)
-..........Decimal(0e0) - double
+..........Decimal(0e0)
 ......Print
 ........Call - double
 ..........Identifier(f) - (int)
-..........Natural(123) - int
+..........Natural(123)
 ..MethodDecl
 ....MethodHeader
 ......Void

@@ -42,11 +42,11 @@ Program
 ......Print
 ........ParseArgs - int
 ..........Identifier(args) - String[]
-..........Decimal(2.0) - double
+..........Decimal(2.0)
 ......Print
 ........ParseArgs - int
 ..........Identifier(args) - String[]
-..........Natural(2) - int
+..........Natural(2)
 ......Print
 ........ParseArgs - int
 ..........Identifier(args) - String[]
@@ -56,7 +56,7 @@ Program
 ......Return
 ........ParseArgs - int
 ..........Identifier(args) - String[]
-..........Decimal(2.0) - double
+..........Decimal(2.0)
 ......Return
 ........Call - void
 ..........Identifier(xd) - (String[])
@@ -64,4 +64,4 @@ Program
 ......Return
 ........Identifier(d) - int
 ......Return
-........Decimal(2.0) - double
+........Decimal(2.0)

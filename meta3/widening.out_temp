@@ -61,10 +61,10 @@ Program
 ........Identifier(b)
 ......Assign - double
 ........Identifier(d) - double
-........Decimal(1.1) - double
+........Decimal(1.1)
 ......Assign - double
 ........Identifier(d) - double
-........Natural(1) - int
+........Natural(1)
 ......Assign - double
 ........Identifier(d) - double
 ........Identifier(i) - int
@@ -75,12 +75,12 @@ Program
 ........Identifier(d) - double
 ........Mul - int
 ..........Identifier(i) - int
-..........Natural(1) - int
+..........Natural(1)
 ......Assign - double
 ........Identifier(d) - double
 ........Mul - double
 ..........Identifier(i) - int
-..........Decimal(1.1) - double
+..........Decimal(1.1)
 ......Assign - double
 ........Identifier(d) - double
 ........Mul - double
@@ -95,68 +95,68 @@ Program
 ........Identifier(d) - double
 ........Call - int
 ..........Identifier(fun_dd) - (double,double)
-..........Natural(1) - int
-..........Natural(2) - int
+..........Natural(1)
+..........Natural(2)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - int
 ..........Identifier(fun_dd) - (double,double)
-..........Decimal(3.0) - double
-..........Natural(4) - int
+..........Decimal(3.0)
+..........Natural(4)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - int
 ..........Identifier(fun_dd) - (double,double)
-..........Decimal(5.0) - double
-..........Decimal(6.0) - double
+..........Decimal(5.0)
+..........Decimal(6.0)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - int
 ..........Identifier(fun_di) - (double,int)
-..........Natural(1) - int
-..........Natural(1) - int
+..........Natural(1)
+..........Natural(1)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - int
 ..........Identifier(fun_di) - (double,int)
-..........Decimal(1.0) - double
-..........Natural(1) - int
+..........Decimal(1.0)
+..........Natural(1)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - undef
 ..........Identifier(fun_di) - undef
-..........Natural(1) - int
-..........Decimal(1.0) - double
+..........Natural(1)
+..........Decimal(1.0)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - undef
 ..........Identifier(fun_di) - undef
-..........Decimal(1.0) - double
-..........Decimal(1.0) - double
+..........Decimal(1.0)
+..........Decimal(1.0)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - int
 ..........Identifier(fun_ii) - (int,int)
-..........Natural(1) - int
-..........Natural(1) - int
+..........Natural(1)
+..........Natural(1)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - undef
 ..........Identifier(fun_ii) - undef
-..........Decimal(1.0) - double
-..........Natural(1) - int
+..........Decimal(1.0)
+..........Natural(1)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - undef
 ..........Identifier(fun_ii) - undef
-..........Natural(1) - int
-..........Decimal(1.0) - double
+..........Natural(1)
+..........Decimal(1.0)
 ......Assign - double
 ........Identifier(d) - double
 ........Call - undef
 ..........Identifier(fun_ii) - undef
-..........Decimal(1.0) - double
-..........Decimal(1.0) - double
+..........Decimal(1.0)
+..........Decimal(1.0)
 ..MethodDecl
 ....MethodHeader
 ......Int
@@ -170,7 +170,7 @@ Program
 ..........Identifier(b)
 ....MethodBody
 ......Return
-........Natural(1) - int
+........Natural(1)
 ..MethodDecl
 ....MethodHeader
 ......Int
@@ -184,7 +184,7 @@ Program
 ..........Identifier(b)
 ....MethodBody
 ......Return
-........Natural(1) - int
+........Natural(1)
 ..MethodDecl
 ....MethodHeader
 ......Int
@@ -198,4 +198,4 @@ Program
 ..........Identifier(b)
 ....MethodBody
 ......Return
-........Natural(1) - int
+........Natural(1)

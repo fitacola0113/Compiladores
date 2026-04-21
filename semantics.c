@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
+#include <stdbool.h>
 #include "semantics.h"
 
 // Variáveis globais
@@ -215,14 +217,53 @@ bool is_method_duplicate(node *program_node, node *current_method) {
 
 bool is_out_of_bounds(const char *val) {
     if (val == NULL) return false;
-    char digits[32];
+    char digits[64];
     int di = 0;
-    for (int i = 0; val[i] && di < 31; i++) {
+    // Remove underscores
+    for (int i = 0; val[i] && di < 63; i++) {
         if (val[i] != '_') digits[di++] = val[i];
     }
     digits[di] = '\0';
-    if (di > 10) return true;
-    if (di == 10 && strcmp(digits, "2147483648") >= 0) return true;
+
+    // Converte para long long para comparar com o limite de 32-bit unsigned
+    long long value = atoll(digits);
+    if (value > 2147483647LL) return true;
+    
+    return false;
+}
+
+bool is_double_out_of_bounds(const char *val) {
+    if (val == NULL) return false;
+    
+    char digits[16000]; 
+    int di = 0;
+    for (int i = 0; val[i] && di < 15999; i++) {
+        if (val[i] != '_') digits[di++] = val[i];
+    }
+    digits[di] = '\0';
+
+    char *endptr;
+    double value = strtod(digits, &endptr);
+
+    // 1. Verificação de OVERFLOW
+    if (isinf(value)) {
+        return true; 
+    }
+    
+    if (value == 0.0) {
+        bool has_non_zero = false;
+        // Procuramos por dígitos de 1 a 9 antes do expoente
+        for (int i = 0; digits[i] != '\0' && digits[i] != 'e' && digits[i] != 'E'; i++) {
+            if (digits[i] >= '1' && digits[i] <= '9') {
+                has_non_zero = true;
+                break;
+            }
+        }
+        if (has_non_zero) {
+            return true;
+        }
+    }
+    
     return false;
 }
 
@@ -475,10 +516,16 @@ void annotate_tree(node *n, symbol_table *local_table) {
         }
         n->anotated_type = strdup("int");
     }
-    else if (strcmp(n->type, "Decimal") == 0) { n->anotated_type = strdup("double"); }
+    else if (strcmp(n->type, "Decimal") == 0) { 
+        // Adiciona a chamada de verificação aqui:
+        if (is_double_out_of_bounds(n->value)) {
+            printf("Line %d, col %d: Number %s out of bounds\n", n->line, n->col, n->value);
+            semantic_errors++;
+        }
+        n->anotated_type = strdup("double"); 
+    }
     else if (strcmp(n->type, "BoolLit") == 0) { n->anotated_type = strdup("boolean"); }
     else if (strcmp(n->type, "StrLit") == 0) { n->anotated_type = strdup("String"); }
-
     // -----------------------------------------------------------------------
     // IDENTIFICADORES
     // -----------------------------------------------------------------------
@@ -607,24 +654,25 @@ void annotate_tree(node *n, symbol_table *local_table) {
         }
     }
 
-    // -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
     // LÓGICOS And, Or (Sempre avaliam para boolean!)
     // -----------------------------------------------------------------------
     else if (strcmp(n->type, "And") == 0 || strcmp(n->type, "Or") == 0) {
-        if (!n->child || !n->child->next) { n->anotated_type = strdup("undef"); }
-        else {
+        if (!n->child || !n->child->next) { 
+            n->anotated_type = strdup("boolean"); 
+        } else {
             const char *t1 = SAFE_TYPE(n->child);
             const char *t2 = SAFE_TYPE(n->child->next);
             
-            bool valid = false;
-            if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) {
-                valid = true;
-            }
-            
-            if (!valid) {
-                printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", n->line, n->col, get_op_symbol(n->type), t1, t2);
+            // Regra estrita: ambos têm de ser boolean.
+            // Se não forem, imprime o erro MESMO que um deles seja undef.
+            if (strcmp(t1, "boolean") != 0 || strcmp(t2, "boolean") != 0) {
+                printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", 
+                       n->line, n->col, get_op_symbol(n->type), t1, t2);
                 semantic_errors++;
             } 
+            
+            // O tipo da expressão lógica na AST é SEMPRE boolean para Juc
             n->anotated_type = strdup("boolean");
         }
     }
@@ -633,28 +681,21 @@ void annotate_tree(node *n, symbol_table *local_table) {
     // BITWISE / LOGICAL Xor
     // -----------------------------------------------------------------------
     else if (strcmp(n->type, "Xor") == 0) {
-        if (!n->child || !n->child->next) { n->anotated_type = strdup("undef"); }
-        else {
-            const char *t1 = SAFE_TYPE(n->child);
-            const char *t2 = SAFE_TYPE(n->child->next);
-            
-            bool valid = false;
-            if (strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0) {
-                valid = true;
-                n->anotated_type = strdup("int");
-            } else if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) {
-                valid = true;
-                n->anotated_type = strdup("boolean");
-            }
-            
-            if (!valid) {
-                printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", n->line, n->col, get_op_symbol(n->type), t1, t2);
-                semantic_errors++;
-                n->anotated_type = strdup("undef");
-            }
+        const char *t1 = SAFE_TYPE(n->child);
+        const char *t2 = SAFE_TYPE(n->child->next);
+        
+        if (strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0) {
+            n->anotated_type = strdup("int");
+        } else if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) {
+            n->anotated_type = strdup("boolean");
+        } else {
+            // Se os tipos forem inválidos (como double), reporta o erro
+            printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", 
+                   n->line, n->col, get_op_symbol(n->type), t1, t2); 
+            semantic_errors++;
+            n->anotated_type = strdup("undef"); 
         }
     }
-
     // -----------------------------------------------------------------------
     // UNÁRIO Not (Sempre avalia para boolean!)
     // -----------------------------------------------------------------------
@@ -808,7 +849,6 @@ void check_program(node *program_node) {
     snprintf(table_name_buf, sizeof(table_name_buf), "Class %s Symbol Table", class_name_node->value);
     symbol_table *class_table = create_symbol_table(table_name_buf);
 
-    // PASSAGEM 1: Apanhar globais E IMPRIMIR ERROS GLOBAIS NA ORDEM CERTA (No topo do output!)
     node *member = class_name_node->next;
     while (member != NULL) {
         if (strcmp(member->type, "FieldDecl") == 0) {

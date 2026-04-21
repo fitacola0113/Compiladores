@@ -45,13 +45,13 @@ Program
 ........Identifier(b)
 ......Assign - int
 ........Identifier(i) - int
-........Natural(1) - int
+........Natural(1)
 ......Assign - double
 ........Identifier(d) - double
-........Decimal(1.1) - double
+........Decimal(1.1)
 ......Assign - boolean
 ........Identifier(b) - boolean
-........BoolLit(true) - boolean
+........BoolLit(true)
 ......Assign - int
 ........Identifier(i) - int
 ........Mul - int

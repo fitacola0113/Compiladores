@@ -17,8 +17,8 @@ Program
 ..........Identifier(args)
 ....MethodBody
 ......Print
-........Decimal(2.5E-324) - double
+........Decimal(2.5E-324)
 ......Print
-........Decimal(0.002_4E-321) - double
+........Decimal(0.002_4E-321)
 ......Print
-........Decimal(0.5E-4965) - double
+........Decimal(0.5E-4965)

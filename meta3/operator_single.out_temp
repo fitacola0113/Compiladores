@@ -55,31 +55,31 @@ Program
 ........Identifier(b)
 ......Assign - boolean
 ........Identifier(b) - boolean
-........BoolLit(false) - boolean
+........BoolLit(false)
 ......Assign - int
 ........Identifier(i) - int
 ........Plus - int
-..........Natural(5) - int
+..........Natural(5)
 ......Assign - int
 ........Identifier(i) - int
 ........Plus - double
-..........Decimal(2.0) - double
+..........Decimal(2.0)
 ......Assign - double
 ........Identifier(d) - double
 ........Plus - int
-..........Natural(1) - int
+..........Natural(1)
 ......Assign - double
 ........Identifier(d) - double
 ........Plus - double
-..........Decimal(2.0) - double
+..........Decimal(2.0)
 ......Assign - boolean
 ........Identifier(b) - boolean
 ........Plus - undef
-..........BoolLit(false) - boolean
+..........BoolLit(false)
 ......Assign - boolean
 ........Identifier(b) - boolean
 ........Plus - undef
-..........BoolLit(true) - boolean
+..........BoolLit(true)
 ......VarDecl
 ........Int
 ........Identifier(tamanho)
@@ -97,20 +97,20 @@ Program
 ..........Identifier(d) - double
 ......Assign - int
 ........Identifier(i) - int
-........Not - boolean
+........Not
 ..........Identifier(i) - int
 ......Assign - double
 ........Identifier(d) - double
-........Not - boolean
+........Not
 ..........Identifier(d) - double
 ......Assign - boolean
 ........Identifier(b) - boolean
-........Not - boolean
+........Not
 ..........Identifier(b) - boolean
 ......Call - undef
 ........Identifier(f) - undef
-........Natural(1) - int
-........Natural(1) - int
+........Natural(1)
+........Natural(1)
 ..MethodDecl
 ....MethodHeader
 ......Void

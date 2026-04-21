@@ -46,7 +46,7 @@ Program
 ..........While
 ............Identifier(b) - boolean
 ............While
-..............BoolLit(true) - boolean
+..............BoolLit(true)
 ..............Block
 ................Print
 ..................Identifier(i) - int
@@ -55,9 +55,9 @@ Program
 ................Print
 ..................Identifier(d) - double
 ..........Print
-............StrLit("Gotcha!") - String
+............StrLit("Gotcha!")
 ..........While
-............BoolLit(true) - boolean
+............BoolLit(true)
 ............Block
 ..............If
 ................Identifier(f) - boolean
@@ -68,11 +68,11 @@ Program
 ....................Print
 ......................Identifier(d) - double
 ..................Print
-....................StrLit("Twice!") - String
+....................StrLit("Twice!")
 ..............Print
-................StrLit("Thrice!") - String
+................StrLit("Thrice!")
 ........Block
 ......While
-........BoolLit(false) - boolean
+........BoolLit(false)
 ........Print
 ..........Identifier(b) - boolean

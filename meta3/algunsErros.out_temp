@@ -20,6 +20,7 @@ Line 26, col 15: Operator * cannot be applied to types undef, undef
 Line 26, col 11: Operator = cannot be applied to types int, undef
 Line 36, col 15: Operator = cannot be applied to types double, boolean
 Line 36, col 11: Operator = cannot be applied to types int, double
+Line 37, col 13: Number 123123122121 out of bounds
 Line 39, col 15: Operator = cannot be applied to types double, boolean
 Line 39, col 11: Operator = cannot be applied to types int, double
 Line 41, col 9: Cannot find symbol factorial(int,int,int)
@@ -124,18 +125,18 @@ Program
 ........Identifier(x) - int
 ........ParseArgs - int
 ..........Identifier(args) - String[]
-..........Natural(0) - int
+..........Natural(0)
 ......Assign - int
 ........Identifier(x) - int
 ........ParseArgs - int
 ..........Identifier(x) - int
-..........Natural(0) - int
+..........Natural(0)
 ......If
 ........Add - undef
-..........Natural(2) - int
+..........Natural(2)
 ..........Mul - undef
-............BoolLit(true) - boolean
-............BoolLit(true) - boolean
+............BoolLit(true)
+............BoolLit(true)
 ........Block
 ........Block
 ......VarDecl
@@ -145,17 +146,17 @@ Program
 ........Identifier(a) - int
 ........Add - undef
 ..........Identifier(b) - undef
-..........BoolLit(true) - boolean
+..........BoolLit(true)
 ......Assign - int
 ........Identifier(a) - int
 ........Add - undef
-..........Natural(1) - int
+..........Natural(1)
 ..........Identifier(b) - undef
 ......Assign - int
 ........Identifier(a) - int
 ........Add - undef
 ..........Identifier(b) - undef
-..........Natural(1) - int
+..........Natural(1)
 ......Assign - int
 ........Identifier(a) - int
 ........Mul - undef
@@ -195,7 +196,7 @@ Program
 ..........Identifier(b) - boolean
 ......Assign - int
 ........Identifier(i) - int
-........Natural(123123122121) - int
+........Natural(123123122121)
 ......VarDecl
 ........Int
 ........Identifier(x)

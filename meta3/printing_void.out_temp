@@ -26,7 +26,7 @@ Program
 ........Identifier(b) - int
 ........Add - int
 ..........Identifier(b) - int
-..........Natural(2) - int
+..........Natural(2)
 ......Return
 ..MethodDecl
 ....MethodHeader
@@ -40,4 +40,4 @@ Program
 ......Print
 ........Call - void
 ..........Identifier(a) - (int)
-..........Natural(3) - int
+..........Natural(3)

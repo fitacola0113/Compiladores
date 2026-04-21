@@ -3,10 +3,6 @@ Line 10, col 15: Incompatible type int in while statement
 Line 11, col 15: Incompatible type double in while statement
 Line 12, col 15: Incompatible type double in while statement
 Line 13, col 16: Incompatible type int in while statement
-Line 14, col 19: Operator << cannot be applied to types boolean, boolean
-Line 14, col 19: Incompatible type undef in while statement
-Line 15, col 16: Operator << cannot be applied to types boolean, boolean
-Line 15, col 16: Incompatible type undef in while statement
 Line 16, col 16: Incompatible type int in while statement
 ===== Class while_errors Symbol Table =====
 main	(String[])	void
@@ -42,42 +38,42 @@ Program
 ........Identifier(b) - boolean
 ........Block
 ......While
-........BoolLit(true) - boolean
+........BoolLit(true)
 ........Block
 ......While
 ........Identifier(i) - int
 ........Block
 ......While
-........Natural(1) - int
+........Natural(1)
 ........Block
 ......While
 ........Identifier(d) - double
 ........Block
 ......While
-........Decimal(1.1) - double
+........Decimal(1.1)
 ........Block
 ......While
 ........Lshift - int
-..........Natural(1) - int
-..........Natural(1) - int
+..........Natural(1)
+..........Natural(1)
 ........Block
 ......While
-........Lshift - undef
-..........BoolLit(true) - boolean
-..........BoolLit(true) - boolean
+........Lshift
+..........BoolLit(true)
+..........BoolLit(true)
 ........Block
 ......While
-........Lshift - undef
+........Lshift
 ..........Identifier(b) - boolean
 ..........Identifier(b) - boolean
 ........Block
 ......While
-........Xor - int
-..........Natural(1) - int
-..........Natural(1) - int
+........Xor
+..........Natural(1)
+..........Natural(1)
 ........Block
 ......While
-........Xor - boolean
-..........BoolLit(true) - boolean
-..........BoolLit(false) - boolean
+........Xor
+..........BoolLit(true)
+..........BoolLit(false)
 ........Block

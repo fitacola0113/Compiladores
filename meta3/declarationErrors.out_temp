@@ -1,3 +1,7 @@
+Line 4, col 23: Symbol c already defined
+Line 4, col 26: Symbol a already defined
+Line 4, col 29: Symbol b already defined
+Line 5, col 26: Symbol _ is reserved
 Line 8, col 11: Incompatible type int in if statement
 Line 13, col 11: Symbol ola already defined
 Line 15, col 45: Symbol i already defined

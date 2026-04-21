@@ -36,13 +36,13 @@ Program
 ........Identifier(b)
 ......Assign - int
 ........Identifier(i) - int
-........Natural(0) - int
+........Natural(0)
 ......Assign - double
 ........Identifier(d) - double
-........Decimal(1.1) - double
+........Decimal(1.1)
 ......Assign - boolean
 ........Identifier(b) - boolean
-........BoolLit(true) - boolean
+........BoolLit(true)
 ......If
 ........Eq - boolean
 ..........Identifier(i) - int
@@ -52,7 +52,7 @@ Program
 ......If
 ........Eq - boolean
 ..........Identifier(i) - int
-..........Natural(1) - int
+..........Natural(1)
 ........Block
 ........Block
 ......If
@@ -64,7 +64,7 @@ Program
 ......If
 ........Eq - boolean
 ..........Identifier(d) - double
-..........Decimal(1.1) - double
+..........Decimal(1.1)
 ........Block
 ........Block
 ......If
@@ -76,7 +76,7 @@ Program
 ......If
 ........Eq - boolean
 ..........Identifier(b) - boolean
-..........BoolLit(true) - boolean
+..........BoolLit(true)
 ........Block
 ........Block
 ......If
@@ -94,43 +94,43 @@ Program
 ......If
 ........Eq - boolean
 ..........Identifier(d) - double
-..........Identifier(b) - boolean
-........Block
-........Block
-......If
-........Ne - boolean
-..........Identifier(i) - int
-..........Identifier(i) - int
-........Block
-........Block
-......If
-........Ne - boolean
-..........Identifier(i) - int
-..........Natural(1) - int
-........Block
-........Block
-......If
-........Ne - boolean
-..........Identifier(d) - double
-..........Identifier(d) - double
-........Block
-........Block
-......If
-........Ne - boolean
-..........Identifier(d) - double
-..........Decimal(1.1) - double
-........Block
-........Block
-......If
-........Ne - boolean
-..........Identifier(b) - boolean
 ..........Identifier(b) - boolean
 ........Block
 ........Block
 ......If
 ........Ne - boolean
+..........Identifier(i) - int
+..........Identifier(i) - int
+........Block
+........Block
+......If
+........Ne - boolean
+..........Identifier(i) - int
+..........Natural(1)
+........Block
+........Block
+......If
+........Ne - boolean
+..........Identifier(d) - double
+..........Identifier(d) - double
+........Block
+........Block
+......If
+........Ne - boolean
+..........Identifier(d) - double
+..........Decimal(1.1)
+........Block
+........Block
+......If
+........Ne - boolean
 ..........Identifier(b) - boolean
-..........BoolLit(true) - boolean
+..........Identifier(b) - boolean
+........Block
+........Block
+......If
+........Ne - boolean
+..........Identifier(b) - boolean
+..........BoolLit(true)
 ........Block
 ........Block
 ......If

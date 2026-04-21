@@ -105,27 +105,27 @@ Program
 ........Identifier(iterator)
 ......Assign - String[]
 ........Identifier(args) - String[]
-........Or - boolean
+........Or
 ..........Add - undef
 ............Mul - undef
 ..............Identifier(args) - String[]
 ..............Identifier(args) - String[]
 ............Identifier(args) - String[]
-..........And - boolean
+..........And
 ............Identifier(args) - String[]
 ............Identifier(args) - String[]
 ......Assign - String[]
 ........Identifier(args) - String[]
-........Or - boolean
+........Or
 ..........Add - undef
 ............Mul - undef
 ..............Identifier(args) - String[]
-..............Natural(1) - int
+..............Natural(1)
 ............Call - int
 ..............Identifier(main) - (String[])
 ..............Identifier(args) - String[]
-..........And - boolean
-............BoolLit(true) - boolean
+..........And
+............BoolLit(true)
 ............Identifier(args) - String[]
 ......Assign - String[]
 ........Identifier(args) - String[]
@@ -134,31 +134,31 @@ Program
 ............Ge - boolean
 ..............Lt - boolean
 ................Identifier(args) - String[]
-................Natural(1) - int
+................Natural(1)
 ..............Call - int
 ................Identifier(main) - (String[])
 ................Identifier(args) - String[]
-............BoolLit(true) - boolean
+............BoolLit(true)
 ..........Identifier(args) - String[]
 ......Assign - String[]
 ........Identifier(args) - String[]
-........And - boolean
-..........And - boolean
+........And
+..........And
 ............Lt - boolean
-..............BoolLit(true) - boolean
-..............Natural(1) - int
+..............BoolLit(true)
+..............Natural(1)
 ............Eq - boolean
 ..............Identifier(args) - String[]
-..............Decimal(1.0) - double
+..............Decimal(1.0)
 ..........Ne - boolean
-............Natural(2) - int
+............Natural(2)
 ............Call - int
 ..............Identifier(main) - (String[])
 ..............Identifier(args) - String[]
 ......Assign - String[]
 ........Identifier(args) - String[]
-........Or - boolean
-..........And - boolean
+........Or
+..........And
 ............Identifier(args) - String[]
 ............Identifier(args) - String[]
 ..........Identifier(args) - String[]
@@ -169,9 +169,9 @@ Program
 ........Identifier(argument) - int
 ........Add - double
 ..........Mul - int
-............Natural(1) - int
+............Natural(1)
 ............Identifier(argument) - int
-..........Decimal(1.0) - double
+..........Decimal(1.0)
 ......Assign - int
 ........Identifier(argument) - int
 ........ParseArgs - int
@@ -179,7 +179,7 @@ Program
 ..........Sub - int
 ............Length - int
 ..............Identifier(args) - String[]
-............Natural(1) - int
+............Natural(1)
 ......Assign - int
 ........Identifier(argument) - int
 ........Add - double
@@ -244,9 +244,9 @@ Program
 ......MethodParams
 ....MethodBody
 ......Return
-........Natural(1) - int
+........Natural(1)
 ......Return
-........Decimal(1.0) - double
+........Decimal(1.0)
 ..MethodDecl
 ....MethodHeader
 ......Double
@@ -254,6 +254,6 @@ Program
 ......MethodParams
 ....MethodBody
 ......Return
-........Natural(1) - int
+........Natural(1)
 ......Return
-........Decimal(1.0) - double
+........Decimal(1.0)
