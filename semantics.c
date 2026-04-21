@@ -5,7 +5,9 @@
 #include <stdbool.h>
 #include "semantics.h"
 
-// Variáveis globais
+// ============================================================================
+// VARIÁVEIS GLOBAIS
+// ============================================================================
 symbol_table *global_table = NULL;
 int semantic_errors = 0;
 symbol_table *last_table = NULL;
@@ -55,7 +57,7 @@ symbol *insert_symbol(symbol_table *table, const char *name, const char *type, c
 }
 
 // ============================================================================
-// PESQUISAS INTELIGENTES
+// PESQUISAS
 // ============================================================================
 
 symbol *search_variable_local(symbol_table *table, const char *name) {
@@ -145,7 +147,7 @@ void free_symbol_tables() {
 }
 
 // ============================================================================
-// FUNÇÕES AUXILIARES PARA VERIFICAÇÃO DE DUPLICADOS (AST SCAN)
+// FUNÇÕES AUXILIARES E AST SCAN
 // ============================================================================
 
 static const char *node_type_to_str(node *type_node) {
@@ -189,7 +191,6 @@ bool is_field_duplicate(node *program_node, node *current_field) {
     return false;
 }
 
-// Em Juc, HÁ Overloading! Compara o nome e a assinatura
 bool is_method_duplicate(node *program_node, node *current_method) {
     char *current_params = build_param_types_string(current_method->child->child->next->next);
     node *member = program_node->child->next;
@@ -212,23 +213,20 @@ bool is_method_duplicate(node *program_node, node *current_method) {
 }
 
 // ============================================================================
-// OUTRAS FUNÇÕES AUXILIARES
+// VERIFICAÇÃO DE OVERFLOW / UNDERFLOW
 // ============================================================================
 
 bool is_out_of_bounds(const char *val) {
     if (val == NULL) return false;
     char digits[64];
     int di = 0;
-    // Remove underscores
     for (int i = 0; val[i] && di < 63; i++) {
         if (val[i] != '_') digits[di++] = val[i];
     }
     digits[di] = '\0';
 
-    // Converte para long long para comparar com o limite de 32-bit unsigned
     long long value = atoll(digits);
     if (value > 2147483647LL) return true;
-    
     return false;
 }
 
@@ -250,9 +248,9 @@ bool is_double_out_of_bounds(const char *val) {
         return true; 
     }
     
+    // 2. Verificação de UNDERFLOW
     if (value == 0.0) {
         bool has_non_zero = false;
-        // Procuramos por dígitos de 1 a 9 antes do expoente
         for (int i = 0; digits[i] != '\0' && digits[i] != 'e' && digits[i] != 'E'; i++) {
             if (digits[i] >= '1' && digits[i] <= '9') {
                 has_non_zero = true;
@@ -289,8 +287,11 @@ const char* get_op_symbol(const char* node_type) {
     return node_type;
 }
 
-// CORREÇÃO CRUCIAL: Se a árvore não tiver tipo (como Lshift/Rshift ignorados), avalia para "none" e não "undef"!
 #define SAFE_TYPE(node_ptr) ((node_ptr) && (node_ptr)->anotated_type ? (node_ptr)->anotated_type : "none")
+
+// ============================================================================
+// RESOLUÇÃO DE OVERLOADING (CALLS)
+// ============================================================================
 
 static void resolve_call(node *n, symbol_table *local_table) {
     if (!n || !n->child) { n->anotated_type = strdup("undef"); return; }
@@ -402,13 +403,12 @@ static void resolve_call(node *n, symbol_table *local_table) {
 }
 
 // ============================================================================
-// ANOTAÇÃO E PERCURSO DA ÁRVORE (PASSAGEM 2 - STRICT ORDER)
+// ANOTAÇÃO E PERCURSO DA ÁRVORE (PASSAGEM 2)
 // ============================================================================
 
 void annotate_tree(node *n, symbol_table *local_table) {
     if (!n) return;
 
-    // NÓS A IGNORAR TOTALMENTE (estruturas de declaração sem semântica de expressão)
     if (strcmp(n->type, "FieldDecl") == 0 ||
         strcmp(n->type, "MethodHeader") == 0 || strcmp(n->type, "ParamDecl") == 0 ||
         strcmp(n->type, "MethodParams") == 0) {
@@ -423,37 +423,22 @@ void annotate_tree(node *n, symbol_table *local_table) {
 
     if (strcmp(n->type, "MethodDecl") == 0) {
         node *name_node = n->child->child->next;
+        
+        // SINCRONIZAÇÃO: Replicar exatamente a lógica de saltar do Pass 1
         bool is_reserved = (strcmp(name_node->value, "_") == 0);
         bool is_dup = is_method_duplicate(global_program_node, n);
 
-        // O corpo dos métodos errados é totalmente ignorado para não gerar falsos "Number out of bounds"
         if (is_reserved || is_dup) {
             annotate_tree(n->next, local_table);
             return;
         }
 
-        // Se é válido, carrega a tabela do Pass 1
+        // Tabela local do método (já criada no Pass 1)
         symbol_table *my_table = current_method_table;
-        current_method_table = current_method_table->next;
-
-        node *params_node = name_node->next;
-        if (params_node) {
-            node *param = params_node->child;
-            while (param) {
-                node *pname = param->child->next;
-                if (strcmp(pname->value, "_") == 0) {
-                    printf("Line %d, col %d: Symbol _ is reserved\n", pname->line, pname->col);
-                    semantic_errors++;
-                } else if (search_variable_local(my_table, pname->value) != NULL) {
-                    printf("Line %d, col %d: Symbol %s already defined\n", pname->line, pname->col, pname->value);
-                    semantic_errors++;
-                } else {
-                    insert_symbol(my_table, pname->value, node_type_to_str(param->child), NULL, true);
-                }
-                param = param->next;
-            }
+        if (current_method_table) {
+            current_method_table = current_method_table->next;
         }
-
+        
         node *body_node = n->child->next;
         if (body_node) {
             annotate_tree(body_node->child, my_table);
@@ -485,10 +470,6 @@ void annotate_tree(node *n, symbol_table *local_table) {
         return;
     }
 
-    // Lshift e Rshift: só anotam quando ambos os operandos são int → int.
-    // Quando os tipos são inválidos NÃO geram erro de operador nem anotam o nó
-    // (anotated_type fica NULL → SAFE_TYPE devolve "none").
-    // Os filhos também não são anotados no caso inválido.
     if (strcmp(n->type, "Lshift") == 0 || strcmp(n->type, "Rshift") == 0) {
         if (n->child && n->child->next) {
             annotate_tree(n->child, local_table);
@@ -498,7 +479,6 @@ void annotate_tree(node *n, symbol_table *local_table) {
             if (strcmp(t1, "int") == 0 && strcmp(t2, "int") == 0) {
                 n->anotated_type = strdup("int");
             }
-            // caso inválido: anotated_type fica NULL, sem erro de operador
         }
         annotate_tree(n->next, local_table);
         return;
@@ -517,7 +497,6 @@ void annotate_tree(node *n, symbol_table *local_table) {
         n->anotated_type = strdup("int");
     }
     else if (strcmp(n->type, "Decimal") == 0) { 
-        // Adiciona a chamada de verificação aqui:
         if (is_double_out_of_bounds(n->value)) {
             printf("Line %d, col %d: Number %s out of bounds\n", n->line, n->col, n->value);
             semantic_errors++;
@@ -526,6 +505,7 @@ void annotate_tree(node *n, symbol_table *local_table) {
     }
     else if (strcmp(n->type, "BoolLit") == 0) { n->anotated_type = strdup("boolean"); }
     else if (strcmp(n->type, "StrLit") == 0) { n->anotated_type = strdup("String"); }
+
     // -----------------------------------------------------------------------
     // IDENTIFICADORES
     // -----------------------------------------------------------------------
@@ -604,7 +584,7 @@ void annotate_tree(node *n, symbol_table *local_table) {
     }
 
     // -----------------------------------------------------------------------
-    // RELACIONAIS Eq, Ne (Sempre avaliam para boolean!)
+    // RELACIONAIS Eq, Ne
     // -----------------------------------------------------------------------
     else if (strcmp(n->type, "Eq") == 0 || strcmp(n->type, "Ne") == 0) {
         if (!n->child || !n->child->next) { n->anotated_type = strdup("undef"); }
@@ -630,7 +610,7 @@ void annotate_tree(node *n, symbol_table *local_table) {
     }
 
     // -----------------------------------------------------------------------
-    // RELACIONAIS Lt, Gt, Le, Ge (Sempre avaliam para boolean!)
+    // RELACIONAIS Lt, Gt, Le, Ge
     // -----------------------------------------------------------------------
     else if (strcmp(n->type, "Lt") == 0 || strcmp(n->type, "Gt") == 0 ||
              strcmp(n->type, "Le") == 0 || strcmp(n->type, "Ge") == 0) {
@@ -654,8 +634,8 @@ void annotate_tree(node *n, symbol_table *local_table) {
         }
     }
 
-// -----------------------------------------------------------------------
-    // LÓGICOS And, Or (Sempre avaliam para boolean!)
+    // -----------------------------------------------------------------------
+    // LÓGICOS And, Or
     // -----------------------------------------------------------------------
     else if (strcmp(n->type, "And") == 0 || strcmp(n->type, "Or") == 0) {
         if (!n->child || !n->child->next) { 
@@ -664,15 +644,11 @@ void annotate_tree(node *n, symbol_table *local_table) {
             const char *t1 = SAFE_TYPE(n->child);
             const char *t2 = SAFE_TYPE(n->child->next);
             
-            // Regra estrita: ambos têm de ser boolean.
-            // Se não forem, imprime o erro MESMO que um deles seja undef.
             if (strcmp(t1, "boolean") != 0 || strcmp(t2, "boolean") != 0) {
                 printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", 
                        n->line, n->col, get_op_symbol(n->type), t1, t2);
                 semantic_errors++;
             } 
-            
-            // O tipo da expressão lógica na AST é SEMPRE boolean para Juc
             n->anotated_type = strdup("boolean");
         }
     }
@@ -689,27 +665,21 @@ void annotate_tree(node *n, symbol_table *local_table) {
         } else if (strcmp(t1, "boolean") == 0 && strcmp(t2, "boolean") == 0) {
             n->anotated_type = strdup("boolean");
         } else {
-            // Se os tipos forem inválidos (como double), reporta o erro
             printf("Line %d, col %d: Operator %s cannot be applied to types %s, %s\n", 
                    n->line, n->col, get_op_symbol(n->type), t1, t2); 
             semantic_errors++;
             n->anotated_type = strdup("undef"); 
         }
     }
+
     // -----------------------------------------------------------------------
-    // UNÁRIO Not (Sempre avalia para boolean!)
+    // UNÁRIO Not
     // -----------------------------------------------------------------------
     else if (strcmp(n->type, "Not") == 0) {
         if (!n->child) { n->anotated_type = strdup("undef"); }
         else {
             const char *t1 = SAFE_TYPE(n->child);
-            
-            bool valid = false;
-            if (strcmp(t1, "boolean") == 0) {
-                valid = true;
-            }
-            
-            if (!valid) {
+            if (strcmp(t1, "boolean") != 0) {
                 printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", n->line, n->col, get_op_symbol(n->type), t1);
                 semantic_errors++;
             }
@@ -724,24 +694,18 @@ void annotate_tree(node *n, symbol_table *local_table) {
         if (!n->child) { n->anotated_type = strdup("undef"); }
         else {
             const char *t1 = SAFE_TYPE(n->child);
-            
-            bool valid = false;
             if (strcmp(t1, "int") == 0 || strcmp(t1, "double") == 0) {
-                valid = true;
-            }
-            
-            if (!valid) {
+                n->anotated_type = strdup(t1);
+            } else {
                 printf("Line %d, col %d: Operator %s cannot be applied to type %s\n", n->line, n->col, get_op_symbol(n->type), t1);
                 semantic_errors++;
                 n->anotated_type = strdup("undef");
-            } else {
-                n->anotated_type = strdup(t1);
             }
         }
     }
 
     // -----------------------------------------------------------------------
-    // ASSIGN (Sempre avalia para o tipo da esquerda!)
+    // ASSIGN
     // -----------------------------------------------------------------------
     else if (strcmp(n->type, "Assign") == 0) {
         if (!n->child || !n->child->next) { n->anotated_type = strdup("undef"); }
@@ -763,14 +727,12 @@ void annotate_tree(node *n, symbol_table *local_table) {
         }
     }
 
-// -----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     // ESTRUTURAS DE CONTROLO If, While
     // -----------------------------------------------------------------------
     else if (strcmp(n->type, "If") == 0 || strcmp(n->type, "While") == 0) {
         if (n->child && n->child->anotated_type) {
             const char *cond_type = n->child->anotated_type;
-            
-            // Retirámos a restrição do undef! Agora TUDO o que não for "boolean" dispara o erro!
             if (strcmp(cond_type, "boolean") != 0) {
                 printf("Line %d, col %d: Incompatible type %s in %s statement\n",
                        n->child->line, n->child->col, cond_type,
@@ -804,8 +766,7 @@ void annotate_tree(node *n, symbol_table *local_table) {
         if (!ok) {
             int err_line = expr ? expr->line : n->line;
             int err_col = expr ? expr->col : n->col;
-            printf("Line %d, col %d: Incompatible type %s in return statement\n",
-                   err_line, err_col, actual);
+            printf("Line %d, col %d: Incompatible type %s in return statement\n", err_line, err_col, actual);
             semantic_errors++;
         }
     }
@@ -820,8 +781,7 @@ void annotate_tree(node *n, symbol_table *local_table) {
                 strcmp(ptype, "double") != 0 &&
                 strcmp(ptype, "boolean") != 0 &&
                 strcmp(ptype, "String") != 0) {
-                printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n",
-                       n->child->line, n->child->col, ptype);
+                printf("Line %d, col %d: Incompatible type %s in System.out.print statement\n", n->child->line, n->child->col, ptype);
                 semantic_errors++;
             }
         }
@@ -831,7 +791,7 @@ void annotate_tree(node *n, symbol_table *local_table) {
 }
 
 // ============================================================================
-// PONTO DE ENTRADA DA ANÁLISE SEMÂNTICA (O VERDADEIRO SINGLE-PASS ORDERED)
+// PONTO DE ENTRADA DA ANÁLISE SEMÂNTICA (PASSAGEM 1)
 // ============================================================================
 
 void check_program(node *program_node) {
@@ -862,35 +822,70 @@ void check_program(node *program_node) {
             } else {
                 insert_symbol(class_table, name_node->value, node_type_to_str(member->child), NULL, false);
             }
-        } else if (strcmp(member->type, "MethodDecl") == 0) {
+        } 
+        else if (strcmp(member->type, "MethodDecl") == 0) {
             node *type_node = member->child->child;
             node *name_node = type_node->next;
-            char *param_types_str = build_param_types_string(name_node->next);
+            node *params_node = name_node->next;
+            char *param_types_str = build_param_types_string(params_node);
             
             bool is_reserved = (strcmp(name_node->value, "_") == 0);
             bool is_dup = is_method_duplicate(program_node, member);
             
+            // 1. Imprimir erros do cabeçalho do método
             if (is_reserved) {
                 printf("Line %d, col %d: Symbol _ is reserved\n", name_node->line, name_node->col);
                 semantic_errors++;
             } else if (is_dup) {
                 printf("Line %d, col %d: Symbol %s(%s) already defined\n", name_node->line, name_node->col, name_node->value, param_types_str);
                 semantic_errors++;
-            } else {
+            }
+
+            // 2. Criar a tabela local se for válido
+            symbol_table *local_table = NULL;
+            if (!is_reserved && !is_dup) {
                 char tbuf[16000];
                 snprintf(tbuf, sizeof(tbuf), "Method %s(%s) Symbol Table", name_node->value, param_types_str);
-                symbol_table *local_table = create_symbol_table(tbuf);
+                local_table = create_symbol_table(tbuf);
                 insert_symbol(local_table, "return", node_type_to_str(type_node), NULL, false);
 
                 symbol *method_sym = insert_symbol(class_table, name_node->value, node_type_to_str(type_node), param_types_str, false);
                 method_sym->local_table = local_table;
+            }
+
+            // 3. Verificação constante de parâmetros 
+            if (params_node) {
+                node *param = params_node->child;
+                while (param) {
+                    node *pname = param->child->next;
+
+                    bool param_dup = false;
+                    node *check = params_node->child;
+                    while (check != param) {
+                        if (strcmp(check->child->next->value, pname->value) == 0) {
+                            param_dup = true;
+                            break;
+                        }
+                        check = check->next;
+                    }
+
+                    if (strcmp(pname->value, "_") == 0) {
+                        printf("Line %d, col %d: Symbol _ is reserved\n", pname->line, pname->col);
+                        semantic_errors++;
+                    } else if (param_dup) {
+                        printf("Line %d, col %d: Symbol %s already defined\n", pname->line, pname->col, pname->value);
+                        semantic_errors++;
+                    } else if (local_table) {
+                        insert_symbol(local_table, pname->value, node_type_to_str(param->child), NULL, true);
+                    }
+                    param = param->next;
+                }
             }
             free(param_types_str);
         }
         member = member->next;
     }
 
-    // PASSAGEM 2: Visitar a árvore de cima para baixo imprimindo os erros internos!
     current_method_table = class_table->next;
     annotate_tree(program_node, class_table);
 }
