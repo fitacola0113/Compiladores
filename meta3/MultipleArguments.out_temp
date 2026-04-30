@@ -42,9 +42,9 @@ Program
 ......If
 ........Eq - boolean
 ..........Identifier(n) - int
-..........Natural(0)
+..........Natural(0) - int
 ........Return
-..........Natural(1)
+..........Natural(1) - int
 ........Block
 ......Return
 ........Mul - undef
@@ -53,7 +53,7 @@ Program
 ............Identifier(factorial) - undef
 ............Sub - int
 ..............Identifier(n) - int
-..............Natural(1)
+..............Natural(1) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
@@ -70,7 +70,7 @@ Program
 ........Identifier(argument) - int
 ........ParseArgs - int
 ..........Identifier(args) - String[]
-..........Natural(0)
+..........Natural(0) - int
 ......Print
 ........Call - undef
 ..........Identifier(factorial) - undef

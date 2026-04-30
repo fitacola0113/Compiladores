@@ -53,7 +53,7 @@ Program
 ........Mul - double
 ..........Identifier(x) - int
 ..........Add - double
-............Decimal(1.0)
+............Decimal(1.0) - double
 ............Identifier(b) - int
 ..MethodDecl
 ....MethodHeader

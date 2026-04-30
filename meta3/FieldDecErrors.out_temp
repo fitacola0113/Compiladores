@@ -42,7 +42,7 @@ Program
 ........Identifier(argument) - int
 ........ParseArgs - int
 ..........Identifier(args) - String[]
-..........Natural(0)
+..........Natural(0) - int
 ......Print
 ........Call - undef
 ..........Identifier(factorial) - undef

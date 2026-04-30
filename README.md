@@ -101,3 +101,12 @@ Login no moooooooooshak
 ## Memória
 
 //DONE Implementar free_symbol_tables e libertar toda a memória alocada para as tabelas de símbolos antes de terminar
+
+
+
+//cena da meta 4
+ver o pq de não funcionar em funçoes recursivas
+ver as cenas dos short circuit:
+if (a|| b) se o a for true escuso de ver o b
+no caso do ^ se o A for false escuso de ver o b
+crash num teste com modulo

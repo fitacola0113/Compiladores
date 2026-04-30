@@ -47,7 +47,7 @@ Program
 ........Identifier(a)
 ......Assign - int
 ........Identifier(a) - int
-........Natural(2147483648)
+........Natural(2147483648) - int
 ..MethodDecl
 ....MethodHeader
 ......Int
@@ -62,7 +62,7 @@ Program
 ........Identifier(b)
 ......Assign - int
 ........Identifier(b) - int
-........Natural(21474_8_3647)
+........Natural(21474_8_3647) - int
 ..MethodDecl
 ....MethodHeader
 ......Int
@@ -83,7 +83,7 @@ Program
 ........Identifier(d)
 ......Assign - int
 ........Identifier(d) - int
-........Natural(2147483649)
+........Natural(2147483649) - int
 ......Assign - int
 ........Identifier(d) - int
 ........Identifier(c) - boolean
@@ -113,6 +113,6 @@ Program
 ....MethodBody
 ......ParseArgs - int
 ........Identifier(s) - undef
-........Decimal(2.2)
+........Decimal(2.2) - double
 ......Print
-........Decimal(2e2)
+........Decimal(2e2) - double

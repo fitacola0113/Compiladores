@@ -96,22 +96,22 @@ Program
 ........Identifier(f)
 ......Assign - int
 ........Identifier(a) - int
-........Natural(1)
+........Natural(1) - int
 ......Assign - int
 ........Identifier(b) - int
-........Natural(1)
+........Natural(1) - int
 ......Assign - double
 ........Identifier(c) - double
-........Decimal(2.0)
+........Decimal(2.0) - double
 ......Assign - double
 ........Identifier(d) - double
-........Decimal(3.0)
+........Decimal(3.0) - double
 ......Assign - boolean
 ........Identifier(e) - boolean
-........BoolLit(true)
+........BoolLit(true) - boolean
 ......Assign - boolean
 ........Identifier(f) - boolean
-........BoolLit(false)
+........BoolLit(false) - boolean
 ......Assign - int
 ........Identifier(a) - int
 ........Add - int
@@ -331,63 +331,63 @@ Program
 ........Identifier(f)
 ......Assign - int
 ........Identifier(a) - int
-........Natural(2)
+........Natural(2) - int
 ......Assign - int
 ........Identifier(b) - int
-........Natural(3)
+........Natural(3) - int
 ......Assign - double
 ........Identifier(c) - double
-........Natural(2)
+........Natural(2) - int
 ......Assign - int
 ........Identifier(a) - int
 ........Add - int
-..........Natural(2)
-..........Natural(2)
+..........Natural(2) - int
+..........Natural(2) - int
 ......Assign - int
 ........Identifier(a) - int
 ........Sub - int
 ..........Identifier(a) - int
-..........Natural(2)
+..........Natural(2) - int
 ......Assign - int
 ........Identifier(a) - int
 ........Mul - int
-..........Natural(2)
+..........Natural(2) - int
 ..........Identifier(b) - int
 ......Assign - double
 ........Identifier(c) - double
 ........Add - double
-..........Decimal(2.0)
+..........Decimal(2.0) - double
 ..........Identifier(b) - int
 ......Assign - double
 ........Identifier(c) - double
 ........Sub - double
 ..........Identifier(a) - int
-..........Decimal(2.0)
+..........Decimal(2.0) - double
 ......Assign - double
 ........Identifier(c) - double
 ........Mul - double
-..........Decimal(2.0)
-..........Decimal(2.0)
+..........Decimal(2.0) - double
+..........Decimal(2.0) - double
 ......Assign - double
 ........Identifier(c) - double
 ........Div - int
 ..........Identifier(a) - int
-..........Natural(2)
+..........Natural(2) - int
 ......Assign - double
 ........Identifier(c) - double
 ........Mod - double
-..........Natural(2)
-..........Decimal(2.0)
+..........Natural(2) - int
+..........Decimal(2.0) - double
 ......Assign - boolean
 ........Identifier(e) - boolean
 ........Eq - boolean
-..........BoolLit(true)
-..........BoolLit(false)
+..........BoolLit(true) - boolean
+..........BoolLit(false) - boolean
 ......Assign - boolean
 ........Identifier(e) - boolean
 ........Ne - boolean
-..........BoolLit(false)
-..........BoolLit(false)
+..........BoolLit(false) - boolean
+..........BoolLit(false) - boolean
 ......Return
 ........Identifier(a) - int
 ..FieldDecl
@@ -410,10 +410,10 @@ Program
 ........Identifier(a)
 ......Assign - int
 ........Identifier(a) - int
-........Natural(1)
+........Natural(1) - int
 ......Assign - double
 ........Identifier(n) - double
-........Natural(0)
+........Natural(0) - int
 ......Assign - double
 ........Identifier(n) - double
 ........Add - double
@@ -426,13 +426,13 @@ Program
 ..........Identifier(a) - int
 ......ParseArgs - int
 ........Identifier(args) - String[]
-........Natural(0)
+........Natural(0) - int
 ......Print
 ........Identifier(n) - double
 ......Print
 ........ParseArgs - int
 ..........Identifier(args) - String[]
-..........Natural(0)
+..........Natural(0) - int
 ......Print
 ........Length - int
 ..........Identifier(args) - String[]

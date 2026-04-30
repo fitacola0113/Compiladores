@@ -35,17 +35,17 @@ Program
 ........Identifier(a) - int
 ........Add - undef
 ..........Identifier(b) - undef
-..........BoolLit(true)
+..........BoolLit(true) - boolean
 ......Assign - int
 ........Identifier(a) - int
 ........Add - undef
 ..........Identifier(b) - undef
-..........Decimal(1.0_43443)
+..........Decimal(1.0_43443) - double
 ......Assign - int
 ........Identifier(a) - int
 ........Add - undef
 ..........Identifier(b) - undef
-..........Natural(1)
+..........Natural(1) - int
 ......Assign - int
 ........Identifier(a) - int
 ........Add - undef

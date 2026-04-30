@@ -24,7 +24,7 @@ Program
 ......Return
 ........Add - int
 ..........Identifier(n) - int
-..........Natural(1)
+..........Natural(1) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
@@ -44,4 +44,4 @@ Program
 ..............Identifier(operators) - (int)
 ..............Call - int
 ................Identifier(operators) - (int)
-................Natural(1)
+................Natural(1) - int

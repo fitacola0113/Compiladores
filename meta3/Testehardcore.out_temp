@@ -1,0 +1,178 @@
+Line 11, col 13: Number 2147483648 out of bounds
+Line 12, col 13: Number 999999999999999999999999999 out of bounds
+Line 15, col 13: Number 1.8e308 out of bounds
+Line 19, col 13: Number 0.5e-4965 out of bounds
+Line 20, col 13: Number 0.00000001e999999999999999999999999999999999999999999 out of bounds
+Line 31, col 15: Operator + cannot be applied to types int, boolean
+Line 32, col 15: Operator = cannot be applied to types int, double
+Line 34, col 15: Operator = cannot be applied to types boolean, int
+Line 31, col 15: Incompatible type undef in if statement
+Line 38, col 20: Operator ^ cannot be applied to types double, double
+Line 40, col 35: Operator + cannot be applied to types boolean, boolean
+Line 40, col 35: Incompatible type undef in System.out.print statement
+Line 38, col 20: Incompatible type undef in while statement
+Line 51, col 35: Operator && cannot be applied to types int, int
+Line 54, col 20: Incompatible type void in return statement
+Line 67, col 21: Operator = cannot be applied to types boolean, int
+Line 67, col 16: Operator + cannot be applied to types int, boolean
+Line 67, col 11: Operator = cannot be applied to types int, undef
+Line 71, col 16: Operator + cannot be applied to types int, boolean
+Line 71, col 24: Operator * cannot be applied to types undef, double
+Line 71, col 11: Operator = cannot be applied to types double, undef
+Line 76, col 17: Operator + cannot be applied to types int, boolean
+Line 76, col 9: Cannot find symbol dummy(undef)
+===== Class Testehardcore Symbol Table =====
+testBounds	()	void
+testControlStructures	()	void
+testPrintAndReturn	()	double
+testCascadingUndef	()	void
+dummy	(int)	void
+
+===== Method testBounds() Symbol Table =====
+return		void
+a		int
+b		double
+
+===== Method testControlStructures() Symbol Table =====
+return		void
+x		int
+y		boolean
+
+===== Method testPrintAndReturn() Symbol Table =====
+return		double
+z		int
+
+===== Method testCascadingUndef() Symbol Table =====
+return		void
+a		int
+b		boolean
+c		double
+
+===== Method dummy(int) Symbol Table =====
+return		void
+arg		int	param
+
+Program
+..Identifier(Testehardcore)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(testBounds)
+......MethodParams
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......VarDecl
+........Double
+........Identifier(b)
+......Assign - int
+........Identifier(a) - int
+........Natural(2147483648) - int
+......Assign - int
+........Identifier(a) - int
+........Natural(999999999999999999999999999) - int
+......Assign - double
+........Identifier(b) - double
+........Decimal(1.8e308) - double
+......Assign - double
+........Identifier(b) - double
+........Decimal(999999999999999999999999999E+222) - double
+......Assign - double
+........Identifier(b) - double
+........Decimal(0.5e-4965) - double
+......Assign - double
+........Identifier(b) - double
+........Decimal(0.00000001e999999999999999999999999999999999999999999) - double
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(testControlStructures)
+......MethodParams
+....MethodBody
+......VarDecl
+........Int
+........Identifier(x)
+......VarDecl
+........Bool
+........Identifier(y)
+......If
+........Add - undef
+..........Natural(1) - int
+..........BoolLit(true) - boolean
+........Assign - int
+..........Identifier(x) - int
+..........Decimal(2.5) - double
+........Assign - boolean
+..........Identifier(y) - boolean
+..........Natural(10) - int
+......While
+........Xor - undef
+..........Decimal(2.0) - double
+..........Decimal(3.0) - double
+........Print
+..........Add - undef
+............BoolLit(true) - boolean
+............BoolLit(false) - boolean
+..MethodDecl
+....MethodHeader
+......Double
+......Identifier(testPrintAndReturn)
+......MethodParams
+....MethodBody
+......VarDecl
+........Int
+........Identifier(z)
+......Print
+........And - boolean
+..........Assign - int
+............Identifier(z) - int
+............Natural(5) - int
+..........Natural(10) - int
+......Return
+........Rshift
+..........Decimal(1.0) - double
+..........Natural(2) - int
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(testCascadingUndef)
+......MethodParams
+....MethodBody
+......VarDecl
+........Int
+........Identifier(a)
+......VarDecl
+........Bool
+........Identifier(b)
+......VarDecl
+........Double
+........Identifier(c)
+......Assign - int
+........Identifier(a) - int
+........Add - undef
+..........Natural(10) - int
+..........Assign - boolean
+............Identifier(b) - boolean
+............Natural(5) - int
+......Assign - double
+........Identifier(c) - double
+........Mul - undef
+..........Add - undef
+............Natural(1) - int
+............BoolLit(true) - boolean
+..........Decimal(5.0) - double
+......Call - undef
+........Identifier(dummy) - undef
+........Add - undef
+..........Natural(1) - int
+..........BoolLit(false) - boolean
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(dummy)
+......MethodParams
+........ParamDecl
+..........Int
+..........Identifier(arg)
+....MethodBody

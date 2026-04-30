@@ -1,0 +1,19 @@
+Line 3, col 9: Symbol _ is reserved
+Line 3, col 11: Operator = cannot be applied to types undef, int
+===== Class Rodrigo Symbol Table =====
+f	()	void
+
+===== Method f() Symbol Table =====
+return		void
+
+Program
+..Identifier(Rodrigo)
+..MethodDecl
+....MethodHeader
+......Void
+......Identifier(f)
+......MethodParams
+....MethodBody
+......Assign - undef
+........Identifier(_) - undef
+........Natural(1) - int

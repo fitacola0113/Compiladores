@@ -47,7 +47,7 @@ Program
 ........Bool
 ........Identifier(t)
 ......If
-........And
+........And - boolean
 ..........Eq - boolean
 ............Identifier(x) - int
 ............Identifier(b) - int
@@ -60,7 +60,7 @@ Program
 ............Lshift - int
 ..............Identifier(a) - int
 ..............Identifier(b) - int
-............Decimal(1.0)
+............Decimal(1.0) - double
 ........Assign - double
 ..........Identifier(y) - double
 ..........Mod - double

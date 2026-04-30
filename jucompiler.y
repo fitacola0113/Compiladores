@@ -6,6 +6,7 @@
     #include <string.h>
     #include "ast.h"
     #include "semantics.h"
+    #include "codegen.h"
 
     node* create_node(char* type, char* value, int line, int col) {
         node* n = (node*)malloc(sizeof(node));
@@ -399,11 +400,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    // Sem opções: análise semântica mas sem imprimir tabelas nem AST
-    yyparse();
-    if (!syntax_error && root) {
-        check_program(root);
-    }
-    free_symbol_tables();
-    return 0;
+// Sem opções: análise semântica e geração de código
+yyparse();
+if (!syntax_error && root) {
+    check_program(root);
+    if (semantic_errors == 0)
+        codegen_program(root);
+}
+free_symbol_tables();
+return 0;
 }

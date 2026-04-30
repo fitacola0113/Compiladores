@@ -1,12 +1,12 @@
 Line 24, col 24: Symbol main(String[]) already defined
 Line 32, col 22: Symbol funcao3(int,int,double) already defined
 Line 34, col 22: Symbol funcao3(int,int,double) already defined
+Line 43, col 41: Symbol i already defined
+Line 55, col 40: Symbol i already defined
 Line 57, col 26: Symbol funcao already defined
 Line 10, col 9: Operator + cannot be applied to types boolean, boolean
 Line 10, col 15: Operator == cannot be applied to types undef, int
 Line 13, col 6: Operator = cannot be applied to types boolean, int
-Line 43, col 41: Symbol i already defined
-Line 55, col 40: Symbol i already defined
 Line 62, col 10: Operator = cannot be applied to types boolean, double
 Line 63, col 10: Operator = cannot be applied to types int, double
 Line 64, col 10: Operator = cannot be applied to types int, double
@@ -115,7 +115,7 @@ Program
 ....MethodBody
 ......ParseArgs - int
 ........Identifier(args) - String[]
-........Natural(0)
+........Natural(0) - int
 ......VarDecl
 ........Bool
 ........Identifier(a)
@@ -130,24 +130,24 @@ Program
 ........Identifier(d)
 ......Assign - boolean
 ........Identifier(a) - boolean
-........BoolLit(true)
+........BoolLit(true) - boolean
 ......Assign - boolean
 ........Identifier(b) - boolean
-........BoolLit(true)
+........BoolLit(true) - boolean
 ......Assign - int
 ........Identifier(c) - int
-........Natural(1)
+........Natural(1) - int
 ......Assign - int
 ........Identifier(d) - int
-........Natural(1)
+........Natural(1) - int
 ......If
 ........Eq - boolean
 ..........Add - undef
 ............Identifier(a) - boolean
-............BoolLit(true)
-..........Natural(2)
+............BoolLit(true) - boolean
+..........Natural(2) - int
 ........Print
-..........StrLit("olaaaa\n")
+..........StrLit("olaaaa\n") - String
 ........Block
 ......Assign - boolean
 ........Identifier(a) - boolean
@@ -183,10 +183,10 @@ Program
 ......Assign - int
 ........Identifier(x) - int
 ........Lshift - int
-..........Natural(1)
+..........Natural(1) - int
 ..........Mul - int
 ............Identifier(x) - int
-............Natural(1)
+............Natural(1) - int
 ..MethodDecl
 ....MethodHeader
 ......Void
@@ -325,7 +325,7 @@ Program
 ......If
 ........Eq - boolean
 ..........Identifier(m) - int
-..........Natural(1)
+..........Natural(1) - int
 ........Call - int
 ..........Identifier(funcao) - (int,int)
 ..........Identifier(m) - int
@@ -392,53 +392,53 @@ Program
 ........Identifier(k) - boolean
 ........Add - double
 ..........Add - int
-............Natural(1)
-............Natural(1)
+............Natural(1) - int
+............Natural(1) - int
 ..........Mod - double
 ............Mul - double
 ..............Div - double
 ................Identifier(e) - double
-................Natural(4)
+................Natural(4) - int
 ..............Minus - double
-................Decimal(4.3)
-............Natural(10)
+................Decimal(4.3) - double
+............Natural(10) - int
 ......Assign - int
 ........Identifier(a) - int
 ........Add - double
 ..........Add - int
-............Natural(1)
-............Natural(1)
+............Natural(1) - int
+............Natural(1) - int
 ..........Mod - double
 ............Mul - double
 ..............Div - double
 ................Identifier(e) - double
-................Natural(4)
+................Natural(4) - int
 ..............Minus - double
-................Decimal(4.3)
-............Natural(10)
+................Decimal(4.3) - double
+............Natural(10) - int
 ......Assign - int
 ........Identifier(b) - int
 ........Add - double
 ..........Add - int
-............Natural(1)
-............Natural(1)
+............Natural(1) - int
+............Natural(1) - int
 ..........Mod - double
 ............Mul - double
 ..............Div - double
 ................Identifier(e) - double
-................Natural(4)
+................Natural(4) - int
 ..............Minus - double
-................Decimal(4.3)
-............Natural(10)
+................Decimal(4.3) - double
+............Natural(10) - int
 ......Assign - boolean
 ........Identifier(i) - boolean
-........Not
-..........Not
-............Not
-..............Not
-................Not
-..................Not
-....................Not
+........Not - boolean
+..........Not - boolean
+............Not - boolean
+..............Not - boolean
+................Not - boolean
+..................Not - boolean
+....................Not - boolean
 ......................Identifier(l) - boolean
 ......Assign - double
 ........Identifier(f) - double
@@ -446,9 +446,9 @@ Program
 ..........Identifier(i) - boolean
 ..........Add - double
 ............Add - double
-..............Natural(1)
-..............Decimal(1.0)
-............Natural(2)
+..............Natural(1) - int
+..............Decimal(1.0) - double
+............Natural(2) - int
 ..MethodDecl
 ....MethodHeader
 ......Int
@@ -462,7 +462,7 @@ Program
 ........Identifier(x1) - int
 ........Identifier(ola56) - boolean
 ......Print
-........StrLit("")
+........StrLit("") - String
 ..FieldDecl
 ....Bool
 ....Identifier(ola56)

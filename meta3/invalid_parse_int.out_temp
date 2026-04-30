@@ -57,11 +57,11 @@ Program
 ......ParseArgs - int
 ........Identifier(undef) - undef
 ........Lshift - int
-..........Natural(1)
-..........Natural(1)
+..........Natural(1) - int
+..........Natural(1) - int
 ......ParseArgs - int
 ........Identifier(undef) - undef
-........Natural(0)
+........Natural(0) - int
 ......ParseArgs - int
 ........Identifier(undef) - undef
 ........Identifier(i) - int
@@ -71,13 +71,13 @@ Program
 ..........Identifier(args) - String[]
 ......ParseArgs - int
 ........Identifier(undef) - undef
-........Decimal(0.0)
+........Decimal(0.0) - double
 ......ParseArgs - int
 ........Identifier(undef) - undef
 ........Identifier(d) - double
 ......ParseArgs - int
 ........Identifier(undef) - undef
-........BoolLit(true)
+........BoolLit(true) - boolean
 ......ParseArgs - int
 ........Identifier(undef) - undef
 ........Identifier(b) - boolean

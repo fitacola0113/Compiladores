@@ -64,7 +64,7 @@ Program
 ..............Identifier(b) - int
 ............Assign - boolean
 ..............Identifier(x) - boolean
-..............Or
+..............Or - boolean
 ................Le - boolean
 ..................Mul - double
 ....................Identifier(d) - double
@@ -74,7 +74,7 @@ Program
 ....................Identifier(c) - int
 ................Eq - boolean
 ..................Identifier(x) - boolean
-..................Not
+..................Not - boolean
 ....................Identifier(y) - boolean
 ............Block
 ..........Block

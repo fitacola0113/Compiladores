@@ -1,7 +1,7 @@
+Line 28, col 71: Symbol e already defined
 Line 17, col 11: Symbol b already defined
 Line 18, col 4: Operator = cannot be applied to types int, boolean
 Line 21, col 10: Incompatible type int in return statement
-Line 28, col 71: Symbol e already defined
 Line 30, col 7: Symbol a already defined
 Line 30, col 10: Symbol b already defined
 Line 30, col 19: Symbol e already defined
@@ -80,7 +80,7 @@ Program
 ........Int
 ........Identifier(i1)
 ......Return
-........Natural(0)
+........Natural(0) - int
 ..FieldDecl
 ....Int
 ....Identifier(pI)
@@ -113,13 +113,13 @@ Program
 ........Identifier(b)
 ......Assign - int
 ........Identifier(b) - int
-........BoolLit(true)
+........BoolLit(true) - boolean
 ......VarDecl
 ........Double
 ........Identifier(f)
 ......Assign - double
 ........Identifier(f) - double
-........Decimal(0.03)
+........Decimal(0.03) - double
 ......Return
 ........Identifier(d) - int
 ..MethodDecl
@@ -151,9 +151,9 @@ Program
 ....MethodBody
 ......Call - void
 ........Identifier(a) - (int,int,boolean)
-........Natural(2)
-........Natural(3)
-........BoolLit(true)
+........Natural(2) - int
+........Natural(3) - int
+........BoolLit(true) - boolean
 ......VarDecl
 ........Int
 ........Identifier(a)
@@ -175,14 +175,14 @@ Program
 ......Assign - int
 ........Identifier(finalI) - int
 ........Add - int
-..........Natural(2)
-..........Natural(3)
+..........Natural(2) - int
+..........Natural(3) - int
 ......Return
 ........Div - double
 ..........Mul - double
-............Decimal(0.02)
-............Decimal(0.03)
-..........Natural(5)
+............Decimal(0.02) - double
+............Decimal(0.03) - double
+..........Natural(5) - int
 ..MethodDecl
 ....MethodHeader
 ......Int
@@ -197,11 +197,11 @@ Program
 ....MethodBody
 ......Call - double
 ........Identifier(test) - (int,int,double,boolean,boolean)
-........Natural(2)
-........Natural(2)
-........Decimal(2.0)
-........BoolLit(true)
-........BoolLit(false)
+........Natural(2) - int
+........Natural(2) - int
+........Decimal(2.0) - double
+........BoolLit(true) - boolean
+........BoolLit(false) - boolean
 ......Return
 ........Add - int
 ..........Identifier(k) - int

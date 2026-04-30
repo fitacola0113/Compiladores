@@ -1,4 +1,5 @@
 Line 4, col 24: Symbol a(int,int) already defined
+Line 4, col 37: Symbol a already defined
 ===== Class test Symbol Table =====
 a	(int,int)	void
 main	(String[])	void

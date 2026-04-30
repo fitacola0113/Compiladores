@@ -169,7 +169,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 77 "jucompiler.y"
+#line 78 "jucompiler.y"
  //alterado para receber a linha e a coluna
     struct {
         char* str;

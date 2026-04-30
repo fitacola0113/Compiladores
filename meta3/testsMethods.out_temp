@@ -142,11 +142,11 @@ Program
 ..........Identifier(main) - (String[])
 ..........Identifier(args) - String[]
 ........Identifier(args) - String[]
-........Natural(1)
+........Natural(1) - int
 ........Call - undef
 ..........Identifier(f) - undef
 ..........Identifier(W) - undef
 ......Call - undef
 ........Identifier(f) - undef
-........Natural(1)
-........Natural(1)
+........Natural(1) - int
+........Natural(1) - int
